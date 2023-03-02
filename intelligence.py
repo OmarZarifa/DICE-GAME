@@ -1,36 +1,32 @@
 class Intelligence:
-    def init(self, level):
+    def __init__(self, level):
         self.level = level
 
-    def decide(self, player_score, opponent_score):
-        if self.level == "easy":
-            self.easy_level(player_score)
+    def decide(self, round_score, total_score):
+        if self.level == "dumb":
+            return self.dumb_level()
             
         elif self.level == "medium":
-            self.medium_level(player_score, opponent_score)
+            return self.medium_level(round_score)
         
         elif self.level == "hard":
-            self.hard_level(player_score, opponent_score)
+            return self.hard_level(round_score, total_score)
 
 
-    def easy_level(self, player_score):
-        if player_score < 20:
+    def dumb_level(self):
+        return "roll"
+    
+    def medium_level(self, round_score):
+        if round_score < 35:
             return "roll"
         else:
             return "hold"
 
-    def medium_level(self, player_score, opponent_score):
-        if player_score < 25:
-            return "roll"
-        elif player_score - opponent_score > 20:
-            return "hold"
-        else:
-            return "roll"
         
-    def hard_level(self, player_score, opponent_score):
-        if player_score < 35:
-            return "roll"
-        elif player_score - opponent_score > 30:
-            return "hold"
+    def hard_level(self, round_score, total_score):
+        if round_score < 20 and total_score < 50:
+            return 'roll'
+        elif round_score < 15 and total_score >= 50:
+            return 'roll'
         else:
-            return "roll"
+            return 'hold'

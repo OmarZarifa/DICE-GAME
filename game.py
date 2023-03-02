@@ -9,20 +9,39 @@ class Game:
         self.p2 = Player(name2)
         
         
-    def play(self):
+    def human_playing(self):
     
         while (self.p1.score<100 and self.p2.score<100):
-            self.p1.rolling()
+            self.p1.human_play()
             answer = input("Restart (y/n) ?")
             if answer == "y":
                 self.restart()
                 
             else:
                 if self.p1.score<100:
-                    self.p2.rolling()
+                    self.p2.human_play()
                     answer = input("Restart (y/n) ?")
                     if answer == "y":
                         self.restart()
+                
+                        
+        if (self.p1.score>self.p2.score):
+            print (f"{self.p1.name} wins!")
+        else:
+            print (f"{self.p2.name} wins!")
+            
+            
+    def computer_playing(self, level):
+        
+        while (self.p1.score<100 and self.p2.score<100):
+            self.p1.human_play()
+            answer = input("Restart (y/n) ?")
+            if answer == "y":
+                self.restart()
+                
+            else:
+                if self.p1.score<100:
+                    self.p2.computer_play(level)
                 
                         
         if (self.p1.score>self.p2.score):
