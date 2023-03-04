@@ -25,4 +25,3 @@ class HighScore:
                 print("{:<10} {:<10}".format(self.players_name[i], self.players_score[i]))
         else:
             print("there is no scores")
-            
