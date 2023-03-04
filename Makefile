@@ -13,7 +13,7 @@ install:
 	$(PYTHON) -m pip install -r requirements.txt
 
 run: 
-	@$(PYTHON) app\main.py
+	@$(PYTHON) main.py
 	
 
 check-venv:
@@ -26,3 +26,7 @@ pylint:
 
 test:
 	$(PYTHON) -m unittest discover -p 'test_*.py' -v -b
+
+coverage:
+	coverage run -m unittest
+	coverage report -m

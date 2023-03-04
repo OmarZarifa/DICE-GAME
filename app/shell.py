@@ -1,7 +1,7 @@
 
 from cmd import Cmd
-from highScore import HighScore
-from game import Game
+from app.highScore import HighScore
+from app.game import Game
 
 
 class Shell(Cmd):

@@ -7,53 +7,53 @@ class Dice:
     def roll(self):
         self.face= random.randint(1, 6)
         if self.face == 1:
-            print("┌─────────┐")
-            print("│         │")
-            print("│    ●    │")
-            print("│         │")
-            print("└─────────┘")
+            print("+-------+")
+            print("|       |")
+            print("|   1   |")
+            print("|       |")
+            print("+-------+")
             
         elif self.face == 2:
-            print("┌─────────┐")
-            print("│  ●      │")
-            print("│         │")
-            print("│      ●  │")
-            print("└─────────┘")
+            print("+-------+")
+            print("|       |")
+            print("|   2   |")
+            print("|       |")
+            print("+-------+")
             
         elif self.face == 3:
-            print("┌─────────┐")
-            print("│  ●      │")
-            print("│    ●    │")
-            print("│      ●  │")
-            print("└─────────┘")
+            print("+-------+")
+            print("|       |")
+            print("|   3   |")
+            print("|       |")
+            print("+-------+")
 
         elif self.face == 4:
-            print("┌─────────┐")
-            print("│  ●   ●  │")
-            print("│         │")
-            print("│  ●   ●  │")
-            print("└─────────┘")
+            print("+-------+")
+            print("|       |")
+            print("|   4   |")
+            print("|       |")
+            print("+-------+")
       
         elif self.face == 5:
-            print("┌─────────┐")
-            print("│  ●   ●  │")
-            print("│    ●    │")
-            print("│  ●   ●  │")
-            print("└─────────┘")
+            print("+-------+")
+            print("|       |")
+            print("|   5   |")
+            print("|       |")
+            print("+-------+")
 
         elif self.face == 6:
-            print("┌─────────┐")
-            print("│  ●   ●  │")
-            print("│  ●   ●  │")
-            print("│  ●   ●  │")
-            print("└─────────┘")
+            print("+-------+")
+            print("|       |")
+            print("|   6   |")
+            print("|       |")
+            print("+-------+")
             
         else:
-            print("┌─────────┐")
-            print("│         │")
-            print("│         │")
-            print("│         │")
-            print("└─────────┘")
+            print("+-------+")
+            print("|       |")
+            print("|   0   |")
+            print("|       |")
+            print("+-------+")
         return self.face
             
         
