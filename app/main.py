@@ -1,4 +1,4 @@
-from shell import Command
+from shell import Shell
 
 if __name__ == '__main__':
     print("┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐")
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     print("Enter 'start 2' to play against another player")
     
     # Create command object
-    command = Command()
+    shell = Shell()
     
     # Start game
-    command.cmdloop()
+    shell.cmdloop()

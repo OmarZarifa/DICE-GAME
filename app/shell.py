@@ -4,7 +4,7 @@ from highScore import HighScore
 from game import Game, Player
 
 
-class Command(Cmd):
+class Shell(Cmd):
     intro = 'Type help or ? to list commands.\n'
     prompt = '> '
 
