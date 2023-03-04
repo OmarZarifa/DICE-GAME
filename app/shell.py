@@ -1,7 +1,7 @@
 
 from cmd import Cmd
 from highScore import HighScore
-from game import Game, Player
+from game import Game
 
 
 class Shell(Cmd):
@@ -153,14 +153,7 @@ class Shell(Cmd):
             print("Invalid number of players. Please enter 1 or 2.")
     """
 
-    def do_scores(self, arg):
-        print(self.highscore)
-        
-    def do_high_score(self, arg):
-        """Print the high score table"""
-        print(self.highscore.get_high_score_table())
-
-    def do_EOF(self, arg):
+    def do_EOF(self, _):
         """Terminate the shell"""
         return True
 

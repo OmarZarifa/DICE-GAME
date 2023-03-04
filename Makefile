@@ -8,12 +8,12 @@ endif
 venv:
 	test -d .venv || python -m venv .venv/
 
-install: check-venv
+install: 
 	$(PYTHON) -m pip install --upgrade pip
 	$(PYTHON) -m pip install -r requirements.txt
 
 run: 
-	@$(PYTHON) -m app.main.py
+	@$(PYTHON) app\main.py
 	
 
 check-venv:

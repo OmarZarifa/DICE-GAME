@@ -1,8 +1,7 @@
-from app.dice import Dice
 import unittest
 from unittest.mock import patch
 from io import StringIO
-
+from app.dice import Dice
 
 class TestDice(unittest.TestCase):
     def setUp(self):
