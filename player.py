@@ -4,10 +4,16 @@ class Player:
     
     def __init__(self, name):
         self.name = name
-        self.score = 0
-        self.dice=Dice(6)
+        self.score = 0 
         
-
+        
+    def add_score(self, score):
+         self.score += score
+         
+    
+    def reset_score(self):
+        self.score = 0
+        
     def set_name(self, new_name):
         self.name = new_name
         print(f"Your new name is {new_name}, you can continue your playing by this name ")
@@ -65,3 +71,7 @@ class Player:
         print( 'Turn is over')
         print( "{}'s round score is {}".format(self.name,round_score))
         print( "{}'s total score is {}\n\n".format(self.name,self.score))
+
+
+    def __str__(self):
+        return self.name

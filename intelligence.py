@@ -17,16 +17,16 @@ class Intelligence:
         return "roll"
     
     def medium_level(self, round_score):
-        if round_score < 35:
+        if round_score < 25:
             return "roll"
         else:
-            return "hold"
+            return "pass"
 
         
     def hard_level(self, round_score, total_score):
-        if round_score < 20 and total_score < 50:
+        if round_score < 15 and total_score < 30:
             return 'roll'
-        elif round_score < 15 and total_score >= 50:
+        elif round_score < 10 and total_score >= 30:
             return 'roll'
         else:
-            return 'hold'
+            return 'pass'
