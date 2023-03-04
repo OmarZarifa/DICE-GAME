@@ -21,12 +21,23 @@ check-venv:
 		exit 1; \
 	fi
 
-pylint:
-	@find app/ -name '*.py' -print0 | xargs -0 pylint -d C0103 -rn
-
 test:
 	$(PYTHON) -m unittest discover -p 'test_*.py' -v -b
 
 coverage:
 	coverage run -m unittest
 	coverage report -m
+
+# ---------------------------------------------------------
+# Work with static code linters.
+#
+pylint:
+	@$(call MESSAGE,$@)
+	cd app/ && pylint *.py
+	cd test/ && pylint *.py
+
+flake8:
+	@$(call MESSAGE,$@)
+	-flake8
+
+lint: flake8 pylint
