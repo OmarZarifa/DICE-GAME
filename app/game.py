@@ -1,7 +1,7 @@
-from intelligence import Intelligence
-from dice import Dice
-from player import Player
-from highScore import HighScore
+from app.intelligence import Intelligence
+from app.dice import Dice
+from app.player import Player
+from app.highScore import HighScore
 
 class Game:
     
