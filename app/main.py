@@ -1,4 +1,4 @@
-from command import Command
+from shell import Command
 
 if __name__ == '__main__':
     print("┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐")
