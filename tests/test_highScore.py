@@ -1,6 +1,7 @@
 import unittest
-from app.highScore import HighScore
 import io
+from app.highScore import HighScore
+import unittest.mock 
 
 
 class TestHighScore(unittest.TestCase):
