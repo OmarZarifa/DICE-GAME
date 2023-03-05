@@ -41,12 +41,6 @@ check-venv:
 #
 
 
-
-
-
-
-
-
 test:
 	$(PYTHON) -m unittest discover -p 'test_*.py' -v -b
 
@@ -60,7 +54,7 @@ coverage:
 pylint:
 	@$(call MESSAGE,$@)
 	cd app/ && pylint *.py
-	cd test/ && pylint *.py
+	cd tests/ && pylint *.py
 
 flake8:
 	@$(call MESSAGE,$@)
@@ -85,3 +79,27 @@ clean-doc: clean
 clean-all: clean clean-doc
 	@$(call MESSAGE,$@)
 	rm -rf .venv
+
+# Work with generating documentation.
+#
+.PHONY: pydoc
+pydoc:
+	@$(call MESSAGE,$@)
+	install -d doc/pydoc
+	$(PYTHON) -m pydoc -w app/*.py
+	mv *.html doc/pydoc
+
+pdoc:
+	@$(call MESSAGE,$@)
+	pdoc --force --html --output-dir doc/pdoc app/*.py
+
+pyreverse:
+	@$(call MESSAGE,$@)
+	install -d doc/pyreverse
+	pyreverse app/*.py
+	dot -Tpng classes.dot -o doc/pyreverse/classes.png
+	dot -Tpng packages.dot -o doc/pyreverse/packages.png
+	rm -f classes.dot packages.dot
+
+doc: pdoc pyreverse #pydoc sphinx
+
