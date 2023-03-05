@@ -81,7 +81,7 @@ clean-all: clean clean-doc
 pydoc:
 	@$(call MESSAGE,$@)
 	install -d doc/pydoc
-	python -m pydoc -w app/*.py
+	python -m pydoc -w app
 	mv *.html doc/pydoc
 
 pdoc:
