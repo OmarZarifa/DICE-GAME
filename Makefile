@@ -1,9 +1,4 @@
-PYTHON :=
-ifeq ($(OS),Windows_NT)
-	PYTHON=.venv\Scripts\python
-else
-	PYTHON=.venv/bin/python
-endif
+PYTHON = python
 
 # ---------------------------------------------------------
 # run the code
@@ -86,12 +81,12 @@ clean-all: clean clean-doc
 pydoc:
 	@$(call MESSAGE,$@)
 	install -d doc/pydoc
-	$(PYTHON) -m pydoc -w app/*.py
+	python -m pydoc -w app/*.py
 	mv *.html doc/pydoc
 
 pdoc:
 	@$(call MESSAGE,$@)
-	pdoc --force --html --output-dir doc/pdoc app/*.py
+	pdoc  --output-dir doc/pdoc app/*.py
 
 pyreverse:
 	@$(call MESSAGE,$@)
