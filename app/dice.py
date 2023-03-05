@@ -15,16 +15,16 @@ class Dice:
             
         elif self.face == 2:
             print("+-------+")
+            print("| O     |")
             print("|       |")
-            print("| O   O |")
-            print("|       |")
+            print("|     O |")
             print("+-------+")
             
         elif self.face == 3:
             print("+-------+")
+            print("| O     |")
             print("|   O   |")
-            print("|   O   |")
-            print("|   O   |")
+            print("|     O |")
             print("+-------+")
 
         elif self.face == 4:
