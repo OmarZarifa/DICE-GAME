@@ -13,7 +13,7 @@ radon
 black
 
 # Documentation
-pdoc3
+pdoc
 sphinx
 sphinx-rtd-theme # for ReadTheDocs local build
 
