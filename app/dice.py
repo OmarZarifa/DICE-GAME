@@ -9,49 +9,49 @@ class Dice:
         if self.face == 1:
             print("+-------+")
             print("|       |")
-            print("|   1   |")
+            print("|   O   |")
             print("|       |")
             print("+-------+")
             
         elif self.face == 2:
             print("+-------+")
             print("|       |")
-            print("|   2   |")
+            print("| O   O |")
             print("|       |")
             print("+-------+")
             
         elif self.face == 3:
             print("+-------+")
-            print("|       |")
-            print("|   3   |")
-            print("|       |")
+            print("|   O   |")
+            print("|   O   |")
+            print("|   O   |")
             print("+-------+")
 
         elif self.face == 4:
             print("+-------+")
+            print("| O   O |")
             print("|       |")
-            print("|   4   |")
-            print("|       |")
+            print("| O   O |")
             print("+-------+")
       
         elif self.face == 5:
             print("+-------+")
-            print("|       |")
-            print("|   5   |")
-            print("|       |")
+            print("| O   O |")
+            print("|   O   |")
+            print("| O   O |")
             print("+-------+")
 
         elif self.face == 6:
             print("+-------+")
-            print("|       |")
-            print("|   6   |")
-            print("|       |")
+            print("| O   O |")
+            print("| O   O |")
+            print("| O   O |")
             print("+-------+")
             
         else:
             print("+-------+")
             print("|       |")
-            print("|   0   |")
+            print("|       |")
             print("|       |")
             print("+-------+")
         return self.face
