@@ -1,6 +1,6 @@
 import unittest
-from unittest.mock import patch
 from app.dice import Dice
+
 
 class TestDice(unittest.TestCase):
     def setUp(self):
@@ -16,6 +16,7 @@ class TestDice(unittest.TestCase):
         self.assertIsInstance(face, int)
         self.assertGreaterEqual(face, 1)
         self.assertLessEqual(face, 6)
+
 
 if __name__ == '__main__':
     unittest.main()

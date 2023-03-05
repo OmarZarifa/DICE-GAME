@@ -1,8 +1,9 @@
 import unittest
 from app.intelligence import Intelligence
 
+
 class TestIntelligence(unittest.TestCase):
-    
+
     def setUp(self):
         self.dumb_intel = Intelligence("dumb")
         self.medium_intel = Intelligence("medium")
@@ -20,6 +21,7 @@ class TestIntelligence(unittest.TestCase):
         self.assertEqual(self.hard_intel.decide(10, 20), "roll")
         self.assertEqual(self.hard_intel.decide(5, 40), "roll")
         self.assertEqual(self.hard_intel.decide(20, 40), "pass")
+
 
 if __name__ == '__main__':
     unittest.main()
