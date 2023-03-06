@@ -89,7 +89,7 @@ python main.py
 After running the game successfully, follow the prompts to play the game.
 
 ### 5. Testing
-## 5.1 Run the unittests
+#### 5.1 Run the unittests
 This project includes unittests, that can be run with the following command:
 ```bash
 make test
@@ -98,7 +98,7 @@ This will run the unit tests and output the results.
 
 Read more on [unittest](https://docs.python.org/3/library/unittest.html)
 
-## 5.2 Measuring Code Coverage
+#### 5.2 Measuring Code Coverage
 To measure code coverage, run the following command:
 ```bash
 make coverage
@@ -108,7 +108,7 @@ Read more on [coverage](https://coverage.readthedocs.io/)
 
 ### 6. Code Validators
 This project includes static code validators to help ensure code quality and improve code style.
-## 6.1 Checking for PEP 8 Compliance
+#### 6.1 Checking for PEP 8 Compliance
 Check code style using make flake8:
 ```bash
 make flake8
@@ -117,7 +117,7 @@ This will check the code for style issues using the Flake8 linter.
 
 Read more on [flake8](https://flake8.pycqa.org/en/latest/)
 
-## 6.2 Checking for pylint Compliance
+#### 6.2 Checking for pylint Compliance
 Check code quality using make pylint:
 ```bash
 make pylint
