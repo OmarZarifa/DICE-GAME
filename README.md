@@ -39,6 +39,7 @@ It's recommended to use a virtual environment to isolate the dependencies requir
 make venv
 ```
 This will create a new virtual environment in the venv directory.
+
 2. Activate the virtual environment by running:
 On Windows:
 ```bash
@@ -48,6 +49,7 @@ On Linux/Mac:
 ```bash
 . .venv/bin/activate
 ```
+
 When you are done you can leave the venv using the command:
 ```bash
 deactivate
