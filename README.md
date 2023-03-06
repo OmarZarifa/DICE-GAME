@@ -52,7 +52,7 @@ On Linux/Mac:
 ```
 
 ###### 3.3  Installing Dependencies 
-Next, you'll need to install the required dependencies listed in requirements.txt. To do this, run:
+Next, you'll need to install the required dependencies listed in 'requirements.txt'. To do this, run:
 ```bash
 make install
 ```
@@ -64,7 +64,7 @@ make installed
 ```
 
 ###### 3.4  Deactivate the venv (Only when you are done!)
-When you are done you can leave the venv using the command:
+When you are done, you can leave the venv using the command:
 ```bash
 deactivate
 ```
@@ -76,16 +76,29 @@ Read more on [Python PIP](https://pypi.org/project/pip/).
 
 
 
-### Run the code
+### 4. Running the Game
 
-The example program can be started like this.
+To start the game, you have two ways: 
 
+1. Run the command from the 'Makefile':
+```bash
+make run
 ```
-# Execute the main program
-python guess/main.py
+
+2. Alternatively, you can run it using the command:
+```bash
+python main.py
 ```
 
-All code is stored below the directory `guess/`.
+This will start a game of Pig Dice with two players. Each player takes turns rolling a die, and the score is accumulated based on the following rules:
+
+    If the player rolls a 1, their turn ends and they score no points for that turn.
+    If the player rolls any other number, they can choose to roll again or hold.
+        If they roll again and don't get a 1, the score for that turn is added to their total score.
+        If they roll again and do get a 1, their turn ends and they score no points for that turn.
+        If they choose to hold, the score for that turn is added to their total score.
+
+The first player to reach a score of 50 wins the game.
 
 
 
