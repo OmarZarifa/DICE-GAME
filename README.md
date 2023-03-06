@@ -33,28 +33,32 @@ cd DICE-GAME
 ```
 
 ### 3. Setting up a Virtual Environment
-create a virtual environment and install the required dependencies. To do this, run the following command:
-This will create a virtual environment and install the required dependencies listed in requirements.txt.
-
-
-
-
-Install a Python virtual environment and activate it.
-
-```
-# Create the virtual environment
+It's recommended to use a virtual environment to isolate the dependencies required for this project. To create a new virtual environment, do the following:
+1. run:
+```bash
 make venv
-
-# Activate on Windows
+```
+This will create a new virtual environment in the venv directory.
+2. Activate the virtual environment by running:
+On Windows:
+```bash
 . .venv/Scripts/activate
-
-# Activate on Linx/Mac
+```
+On Linux/Mac:
+```bash
 . .venv/bin/activate
 ```
-
-When you are done you can leave the venv using the command `deactivate`.
+When you are done you can leave the venv using the command:
+```bash
+deactivate
+```
 
 Read more on [Python venv](https://docs.python.org/3/library/venv.html).
+
+
+
+
+
 
 
 
