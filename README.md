@@ -1,13 +1,11 @@
 DICE GAME PIG
 ==========================
 
-[![Documentation Status](https://readthedocs.org/projects/a-python-project-template-codestyle-and-linters-included/badge/?version=latest)](https://a-python-project-template-codestyle-and-linters-included.readthedocs.io/en/latest/?badge=latest)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
 Welcome to the pig dice game!
 
-[[_TOC_]]
+This is a Python implementation of the classic Pig Dice game, which can be played by one or two players. The game is written in Python 3 and provides a command-line interface for playing the game
 
+The objective of the game is to be the first player to reach a score of 100. players take turns rolling a single die as many times as they wish, with the goal of accumulating as many points as possible without rolling a 1. 
 
 
 Get going
@@ -178,21 +176,6 @@ Optional targets
 --------------------------
 
 These targets might be helpful when running your project.
-
-
-
-### Codestyle with black
-
-You can unify the codestyle using black. Running black will change your source code to have a codestyle according to black codestyle.
-
-```
-# Same same, different names
-make black
-make codestyle
-```
-
-Read more on [black](https://pypi.org/project/black/).
-
 
 
 More targets
