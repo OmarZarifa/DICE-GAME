@@ -12,7 +12,7 @@ To get started with the Pig Dice Game, follow these steps:
 ### 1. Check version of Python
 To get started with the game, you'll need to have Python 3.6 or later installed on your system. You can check your Python version by following these steps:
 1. Open the command prompt.
-2. Type the following and hit Enter
+2. Type the following command and hit Enter:
 ```
 python --version
 ```
