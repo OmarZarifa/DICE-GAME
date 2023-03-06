@@ -41,6 +41,7 @@ make venv
 This will create a new virtual environment in the venv directory.
 
 2. Activate the virtual environment by running:
+
 On Windows:
 ```bash
 . .venv/Scripts/activate
