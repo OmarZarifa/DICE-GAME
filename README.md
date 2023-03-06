@@ -1,18 +1,25 @@
 DICE GAME PIG
 ==========================
 
-Welcome to the pig dice game!
-
 This is a Python implementation of the classic Pig Dice game, which can be played by one or two players. The game is written in Python 3 and provides a command-line interface for playing the game
 
-The objective of the game is to be the first player to reach a score of 100. players take turns rolling a single die as many times as they wish, with the goal of accumulating as many points as possible without rolling a 1. 
+The objective of the game is to be the first player to reach a score of 50. players take turns rolling a single die as many times as they wish, with the goal of accumulating as many points as possible without rolling a 1. 
 
 
-Get going
+Getting started 
 --------------------------
+To get started with the Pig Dice Game, follow these steps:
+### 1. Check version of Python
+To get started with the game, you'll need to have Python 3.6 or later installed on your system. You can check your Python version by running:
+1. Open the command prompt.
+2. Type the following and hit Enter
+```
+python --version
+```
+3. The output will display the Python version installed on your machine.
 
-This is how you can work with the development environment.
 
+If you don't have Python installed, you can download it from the official website: https://www.python.org/downloads/
 
 
 ### Check version of Python
