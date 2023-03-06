@@ -101,6 +101,10 @@ class Game:
             return False
 
     def pass_dice(self):
+        """
+        Passes the turn to the other player and adds the current turn score to the current player's total score.
+        If the current player's total score reaches the winning score, sets the winner and updates the high score list.
+        """
         self.current_player.add_score(self.turn_score)
         self.turn_score = 0
         if self.current_player.score >= self.WINNING_SCORE:
@@ -112,8 +116,10 @@ class Game:
             self.switch_players()
 
     def is_game_over(self, current_player_score):
-        '''Determines whether the game is over.'''
-        '''Returns True if player has 100 or more, otherwise it returns False.'''
+        """
+        Determines whether the game is over.
+        Returns True if player has 50 or more, otherwise it returns False.
+        """
         if (current_player_score >= self.WINNING_SCORE):
             return True
         else:
