@@ -1,11 +1,17 @@
+
+"""A class representing a standard six-sided dice."""
+
 import random
 
 
 class Dice:
+    """Dice Class."""
+
     def __init__(self):
-        self
+        """Initializes a new instance of the Dice class."""
 
     def roll(self):
+        """Roll and print the rolled dice face."""
         self.face = random.randint(1, 6)
         if self.face == 1:
             print("+-------+")

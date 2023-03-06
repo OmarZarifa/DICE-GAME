@@ -1,3 +1,6 @@
+
+"""A class that represents a game of Pig."""
+
 from app.intelligence import Intelligence
 from app.dice import Dice
 from app.player import Player
@@ -5,7 +8,21 @@ from app.highScore import HighScore
 
 
 class Game:
+    """
+    A class that represents a game of Pig.
 
+    Attributes:
+        WINNING_SCORE (int): The score needed to win the game.
+        p1 (Player): The first player.
+        p2 (Player): The second player.
+        current_player (Player): The current player.
+        other_player (Player): The other player.
+        winner (Player): The winner of the game.
+        turn_score (int): The score for the current turn.
+        dice_value (int): The value of the dice roll.
+        level (str): The difficulty level of the game.
+        highscore (HighScore): The high score list.
+    """
     WINNING_SCORE = 50
 
     def __init__(self, player1_name, player2_name):
@@ -20,9 +37,11 @@ class Game:
         self.highscore = HighScore()
 
     def switch_players(self):
+        """Switches the current player and the other player."""
         self.current_player, self.other_player = self.other_player, self.current_player
 
     def roll_dice(self):
+        """Rolls the dice and updates the turn score."""
         if self.is_computer():
             self.computer_roll(self.level)
 
@@ -39,6 +58,15 @@ class Game:
                 print(f"{self.current_player}, your turn score is {self.turn_score}.\n")
 
     def computer_roll(self, level):
+        """
+        Rolls the dice for the computer player.
+
+        Args:
+            level (str): The difficulty level of the game.
+
+        Returns:
+            None
+        """
         intelligence = Intelligence(level)
 
         self.turn_score = 0
@@ -66,6 +94,7 @@ class Game:
                     self.pass_dice()
 
     def is_computer(self):
+        """Checks if the current player is a computer player."""
         if self.current_player.name == "computer":
             return True
         else:
