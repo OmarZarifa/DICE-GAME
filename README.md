@@ -9,7 +9,7 @@ The objective of the game is to be the first player to reach a score of 50. Play
 Getting started 
 --------------------------
 To get started with the Pig Dice Game, follow these steps:
-### 1. Check version of Python
+### 1 Check version of Python
 To get started with the game, you'll need to have Python 3.6 or later installed on your system. You can check your Python version by following these steps:
 1. Open the command prompt.
 2. Type the following command and hit Enter:
@@ -34,13 +34,13 @@ cd DICE-GAME
 
 ### 3. Setting up a Virtual Environment
 It's recommended to use a virtual environment to isolate the dependencies required for this project. To create a new virtual environment, do the following:
-###### 1. create a new virtual environment by running:
+###### 3.1 create a new virtual environment by running:
 ```bash
 make venv
 ```
 This will create a new virtual environment in the venv directory.
 
-###### 2. Activate the virtual environment by running:
+###### 3.2 Activate the virtual environment by running:
 
 On Windows:
 ```bash
@@ -51,7 +51,7 @@ On Linux/Mac:
 . .venv/bin/activate
 ```
 
-###### 3. Installing Dependencies 
+###### 3.3 Installing Dependencies 
 Next, you'll need to install the required dependencies listed in requirements.txt. To do this, run:
 ```bash
 make install
@@ -63,7 +63,7 @@ To check what dependecies are installed, run:
 make installed
 ```
 
-###### 4. Deactivate the venv (Only when you are done!)
+###### 3.4 Deactivate the venv (Only when you are done!)
 When you are done you can leave the venv using the command:
 ```bash
 deactivate
