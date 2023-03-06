@@ -34,13 +34,13 @@ cd DICE-GAME
 
 ### 3. Setting up a Virtual Environment
 It's recommended to use a virtual environment to isolate the dependencies required for this project. To create a new virtual environment, do the following:
-1. run:
+## 1. create a new virtual environment by running:
 ```bash
 make venv
 ```
 This will create a new virtual environment in the venv directory.
 
-2. Activate the virtual environment by running:
+## 2. Activate the virtual environment by running:
 
 On Windows:
 ```bash
@@ -51,35 +51,28 @@ On Linux/Mac:
 . .venv/bin/activate
 ```
 
+## 3. Installing Dependencies 
+Next, you'll need to install the required dependencies listed in requirements.txt. To do this, run:
+```bash
+make install
+```
+This will install the dependencies in your virtual environment.
+
+To check what dependecies are installed, run:
+```bash
+make installed
+```
+
+## 4. Deactivate the venv (Only when you are done!)
 When you are done you can leave the venv using the command:
 ```bash
 deactivate
 ```
 
 Read more on [Python venv](https://docs.python.org/3/library/venv.html).
-
-
-
-
-
-
-
-
-### Install the dependencies
-
-Install the PIP packages that are dependencies to the project and/or the development environment. The dependencies are documented in the `requirements.txt`.
-
-Do not forget to check that you have an active venv.
-
-```
-# Do install them
-make install
-
-# Check what is installed
-make installed
-```
-
 Read more on [Python PIP](https://pypi.org/project/pip/).
+
+
 
 
 
