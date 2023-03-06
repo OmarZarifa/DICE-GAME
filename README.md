@@ -9,7 +9,7 @@ The objective of the game is to be the first player to reach a score of 50. Play
 Getting started 
 --------------------------
 To get started with the Pig Dice Game, follow these steps:
-### 1 Check version of Python
+### 1. Check version of Python
 To get started with the game, you'll need to have Python 3.6 or later installed on your system. You can check your Python version by following these steps:
 1. Open the command prompt.
 2. Type the following command and hit Enter:
@@ -72,10 +72,6 @@ deactivate
 Read more on [Python venv](https://docs.python.org/3/library/venv.html).
 Read more on [Python PIP](https://pypi.org/project/pip/).
 
-
-
-
-
 ### 4. Running the Game
 
 To start the game, you have two ways: 
@@ -90,37 +86,56 @@ make run
 python main.py
 ```
 
-This will start a game of Pig Dice with two players. Each player takes turns rolling a die, and the score is accumulated based on the following rules:
+After running the game successfully, follow the prompts to play the game.
 
-    If the player rolls a 1, their turn ends and they score no points for that turn.
-    If the player rolls any other number, they can choose to roll again or hold.
-        If they roll again and don't get a 1, the score for that turn is added to their total score.
-        If they roll again and do get a 1, their turn ends and they score no points for that turn.
-        If they choose to hold, the score for that turn is added to their total score.
-
-The first player to reach a score of 50 wins the game.
-
-
-
-### Run the validators
-
-You can run the static code validators like this. They check the sourcecode and exclude the testcode.
-
+### 5. Testing
+## 5.1 Run the unittests
+This project includes unittests, that can be run with the following command:
+```bash
+make test
 ```
-# Run each at a time
-make flake8
-make pylint
+This will run the unit tests and output the results.
 
-# Run all on the same time
+Read more on [unittest](https://docs.python.org/3/library/unittest.html)
+
+## 5.2 Measuring Code Coverage
+To measure code coverage, run the following command:
+```bash
+make coverage
+```
+This will run the unittests and generate a code coverage report in the htmlcov directory. Open htmlcov/index.html in your web browser to view the report.
+Read more on [coverage](https://coverage.readthedocs.io/)
+
+### 6. Code Validators
+This project includes static code validators to help ensure code quality and improve code style.
+## 6.1 Checking for PEP 8 Compliance
+Check code style using make flake8:
+```bash
+make flake8
+```
+This will check the code for style issues using the Flake8 linter.
+
+Read more on [flake8](https://flake8.pycqa.org/en/latest/)
+
+## 6.2 Checking for pylint Compliance
+Check code quality using make pylint:
+```bash
+make pylint
+```
+This will check the code for quality issues using the pylint linter.
+
+Read more on [pylint](https://pylint.org/)
+
+
+Notice 1: To check for the PEP 8 Compliance & the pylint compliance at the same time, run:
+```bash
 make lint
 ```
+Notice 2: The runned validators check the sourcecode and exclude the testcode.
 
-You might need to update the Makefile if you change the name of the source directory currently named `guess/`.
+Notice 3: You might need to update the Makefile if you change the name of the source directory currently named `app/`.
 
-Read more on:
 
-* [flake8](https://flake8.pycqa.org/en/latest/)
-* [pylint](https://pylint.org/)
 
 
 
@@ -144,12 +159,6 @@ You can open a web browser to inspect the code coverage as a generated HTML repo
 ```
 firefox htmlcov/index.html
 ```
-
-Read more on:
-
-* [unittest](https://docs.python.org/3/library/unittest.html)
-* [coverage](https://coverage.readthedocs.io/)
-
 
 
 ### Run parts of the testsuite
