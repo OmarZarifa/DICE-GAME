@@ -22,28 +22,22 @@ python --version
 If you don't have Python installed, you can download it from the official website: https://www.python.org/downloads/
 
 
-### Check version of Python
-
-Check what version of Python you have. The Makefile uses `PYTHON=python` as default.
-
+### 2. Cloning the Repository
+To download the Pig Dice game code, you can clone the repository from GitHub:
+```bash
+git clone https://github.com/OmarZarifa/DICE-GAME.git
 ```
-# Check you Python installation
-make version
-```
-
-If you have another naming of the Python executable then you can solve that using an environment variable. This is common on Mac and Linux.
-
-```
-# Set the environment variable to be your python executable
-export PYTHON=python3
-make version
+After cloning, you can navigate to the cloned file using:
+```bash
+cd DICE-GAME
 ```
 
-Read more on [GNU make](https://www.gnu.org/software/make/manual/make.html).
+### 3. Setting up a Virtual Environment
+create a virtual environment and install the required dependencies. To do this, run the following command:
+This will create a virtual environment and install the required dependencies listed in requirements.txt.
 
 
 
-### Python virtual environment
 
 Install a Python virtual environment and activate it.
 
