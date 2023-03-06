@@ -104,6 +104,7 @@ To measure code coverage, run the following command:
 make coverage
 ```
 This will run the unittests and generate a code coverage report in the htmlcov directory. Open htmlcov/index.html in your web browser to view the report.
+
 Read more on [coverage](https://coverage.readthedocs.io/)
 
 ### 6. Code Validators
@@ -127,13 +128,14 @@ This will check the code for quality issues using the pylint linter.
 Read more on [pylint](https://pylint.org/)
 
 
-Notice 1: To check for the PEP 8 Compliance & the pylint compliance at the same time, run:
+Important notes:
+* To check for the PEP 8 Compliance & the pylint compliance at the same time, run:
 ```bash
 make lint
 ```
-Notice 2: The runned validators check the sourcecode and exclude the testcode.
+* The runned validators check the sourcecode and exclude the testcode.
 
-Notice 3: You might need to update the Makefile if you change the name of the source directory currently named `app/`.
+* You might need to update the Makefile if you change the name of the source directory currently named `app/`.
 
 
 
