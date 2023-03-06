@@ -1,30 +1,40 @@
+
+"""A class representing the artificial intelligence (AI) of a game player."""
+
 class Intelligence:
+    """Class Intelligence"""
     def __init__(self, level):
+        """Initializes a new Intelligence instance with the given difficulty level."""
         self.level = level
 
     def decide(self, round_score, total_score):
+        """Returns the AI's decision for the current round based on its level."""
         if self.level == "dumb":
             return self.dumb_level()
 
-        elif self.level == "medium":
+        if self.level == "medium":
             return self.medium_level(round_score)
 
-        elif self.level == "hard":
+        if self.level == "hard":
             return self.hard_level(round_score, total_score)
 
+        # If none of the above conditions are met, return None
+        return None
+
     def dumb_level(self):
+        """Returns "roll" as the decision for a dumb AI."""
         return "roll"
 
     def medium_level(self, round_score):
+        """Returns "roll" if the round score is less than 25, otherwise "pass"."""
         if round_score < 25:
             return "roll"
-        else:
-            return "pass"
+        return "pass"
 
     def hard_level(self, round_score, total_score):
-        if round_score < 15 and total_score < 30:
+        """Returns "roll" or "pass" based on the round and total scores for a hard AI."""
+        if round_score <= 10 and total_score < 30:
             return 'roll'
-        elif round_score < 10 and total_score >= 30:
+        if round_score < 8 and total_score >= 30:
             return 'roll'
-        else:
-            return 'pass'
+        return 'pass'

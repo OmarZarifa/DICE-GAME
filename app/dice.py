@@ -9,6 +9,7 @@ class Dice:
 
     def __init__(self):
         """Initializes a new instance of the Dice class."""
+        self.face = random.randint(1, 6)
 
     def roll(self):
         """Roll and print the rolled dice face."""
@@ -61,4 +62,8 @@ class Dice:
             print("|       |")
             print("|       |")
             print("+-------+")
+        return self.face
+
+    def get_face(self):
+        """Get the face of the dice"""
         return self.face

@@ -16,6 +16,10 @@ class TestDice(unittest.TestCase):
         self.assertIsInstance(face, int)
         self.assertGreaterEqual(face, 1)
         self.assertLessEqual(face, 6)
+        
+    def test_get_face(self):
+        dice = Dice()
+        self.assertIn(dice.get_face(), range(1, 7))
 
 
 if __name__ == '__main__':

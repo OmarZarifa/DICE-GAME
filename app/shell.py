@@ -1,14 +1,36 @@
+
+"""
+The Shell module provides a simple shell interface for interacting with the command line.
+
+The Shell class can be used to create a command line interface that accepts user input, 
+executes shell commands, and displays the output to the user. 
+
+Commands:
+    The Shell supports the following commands:
+        - help        - Display this help message")
+        - rules       - Display the rules of the game")
+        - start [1|2] - Start a new game against the computer or with two players")
+        - roll        - Roll the dice")
+        - pass        - Pass rolling to the other player")
+        - restart     - Restart the current game")
+        - exit        - Exit the current game")
+        - cheat       - Cheat and reach 100 points in the game")
+        - score       - Display the high scores")
+"""
+
 from cmd import Cmd
-from app.highScore import HighScore
+from app.highscore import HighScore
 from app.game import Game
 
 
 class Shell(Cmd):
+    "Class Shell"
     intro = 'Type help or ? to list commands.\n'
     prompt = '> '
 
     def __init__(self):
-        """Init game object."""
+        """Initialize a new instance of the Shell class,
+           creating a Game object and a HighScore object."""
         super().__init__()
         self.game = None
         self.high_score = HighScore()
@@ -39,11 +61,11 @@ class Shell(Cmd):
         The player can choose to end their turn at any time and add their accumulated points to their total score.
         The turn then passes to the other player.
 
-        If a player reaches 100 points, the game ends and that player wins.
+        If a player reaches 50 points, the game ends and that player wins.
         """)
 
     def do_start(self, arg):
-        """Start a new game"""
+        """Start a new game with one or two players, depending on the user's input."""
 
         num_players = int(arg)
         if num_players == 1:
@@ -65,7 +87,7 @@ class Shell(Cmd):
             print("'start 2' for playing with another player")
 
     def do_roll(self, _):
-        """Roll the dice"""
+        """ Rolls the dice for the current player."""
         if self.game is None:
             print("No game in progress. Use the 'start' command to start a new game.")
         elif self.game.is_game_over(self.game.current_player.score):
@@ -74,17 +96,17 @@ class Shell(Cmd):
             self.game.roll_dice()
 
     def do_pass(self, _):
-        """Pass rolling to the other player"""
+        """Pass rolling to the other player and do the first roll"""
         if self.game is None:
             print("No game in progress. Use the 'start' command to start a new game.")
         else:
             self.game.pass_dice()
             self.do_roll(self)
 
-    def do_restart(self, arg):
+    def do_restart(self, _):
         """Restart the current game"""
         if self.game is None:
-            print("No game in progress. Use the 'start' command to start a new game.")
+            print("No game in progress.Use the 'start 1' or 'start 2' command to start a new game.")
         else:
             self.game.reset_game()
             print("New game restarted")
@@ -95,6 +117,7 @@ class Shell(Cmd):
         return True
 
     def do_cheat(self, _):
+        """Allows the current player to cheat and reach 50 points in the game."""
         if self.game is None:
             print("No game in progress. Use the 'start' command to start a new game.")
         else:
@@ -102,54 +125,21 @@ class Shell(Cmd):
             print(f"{self.game.current_player}, congrats, you win, cheater! ")
 
     def do_score(self, _):
+        """Displays the high scores of all completed games"""
         if self.game is None:
             print("No games are played. Use the 'start' command to start a new game.")
 
         else:
             self.game.highscore.display()
 
-    """
-    def do_start(self, arg):
-        #Start a new game
-        if self.game is not None and not self.game.is_over:
-            confirm = input("Are you sure you want to start a new game? (Y/N) ")
-            if confirm.lower() != 'y':
-                return
-        try:
-            num_players = int(arg)
-            if num_players == 1:
-                #player1_name = input("Enter your name: ")
-                #level = input("Enter computer intelligence level (dumb, medium or hard): ")
-                #self.game = Game(Player(player1_name), Player("Computer", level=int(level)))
-                name = input("Please enter your name: ")
-                level = input("Select computer intelligence level (dumb, medium or hard): ")
-                game =  Game(name, "computer")
-                game.computer_playing(level)
-
-            elif num_players == 2:
-                #player1_name = input("Enter player 1 name: ")
-                #player2_name = input("Enter player 2 name: ")
-                #self.game = Game(Player(player1_name), Player(player2_name))
-                name1 = input("Enter the name of the first player: ")
-                name2 = input("Enter the name of the second player: ")
-                game = Game(name1, name2)
-                game.human_playing()
-
-            else:
-                raise ValueError
-            print("New game started.")
-            self.game.show_scores()
-        except ValueError:
-            print("Invalid number of players. Please enter 1 or 2.")
-    """
-
-    def do_EOF(self, _):
+    def do_eof(self, _):
         """Terminate the shell"""
         return True
 
     def emptyline(self):
-        """Override the method to do nothing, since we don't want the shell to repeat the last command if the user enters an empty line."""
-        pass
+        """Override the method to do nothing,
+        since we don't want the shell to repeat the last command if the user enters an empty line"""
 
     def default(self, line):
+        """Displays an error message when the user enters an invalid command."""
         print("Invalid command. Type 'help' or '?' to see list of available commands.")
