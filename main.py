@@ -1,3 +1,5 @@
+"""The main class."""
+
 from app.shell import Shell
 
 if __name__ == '__main__':

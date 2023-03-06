@@ -1,5 +1,4 @@
-
-"""A class representing a standard six-sided dice."""
+"""Represent a standard six-sided dice."""
 
 import random
 
@@ -8,7 +7,7 @@ class Dice:
     """Dice Class."""
 
     def __init__(self):
-        """Initializes a new instance of the Dice class."""
+        """Initialize a new instance of the Dice class."""
         self.face = random.randint(1, 6)
 
     def roll(self):
@@ -65,5 +64,5 @@ class Dice:
         return self.face
 
     def get_face(self):
-        """Get the face of the dice"""
+        """Get the face of the dice."""
         return self.face

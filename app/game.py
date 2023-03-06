@@ -1,5 +1,4 @@
-
-"""Here the pig dice game is taking place"""
+"""Represent the pig dice game."""
 
 from app.intelligence import Intelligence
 from app.dice import Dice
@@ -8,10 +7,12 @@ from app.highscore import HighScore
 
 
 class Game:
-    """Class Game"""
+    """Class Game."""
+
     WINNING_SCORE = 50
 
     def __init__(self, player1_name, player2_name):
+        """Initialize the game object with following attributes."""
         self.player_1 = Player(player1_name)
         self.player_2 = Player(player2_name)
         self.current_player = self.player_1
@@ -79,18 +80,17 @@ class Game:
         return bool(self.current_player.name == "computer")
 
     def pass_dice(self):
-        """
-        Pass the turn to the other player and
-        add the current turn score to the current player's total score.
-
-        If the current player's total score reaches the winning score
-        set the winner and update the high score list.
-        """
+        """Pass the turn to the other player."""
         self.current_player.add_score(self.turn_score)
         self.turn_score = 0
+        # Check if the current player's total score reaches the winning score
         if self.current_player.score >= self.WINNING_SCORE:
+            # Set the winner
             self.winner = self.current_player
+
+            # Update the high score list
             self.highscore.add_score(self.current_player.score)
+
             self.highscore.add_name(self.winner.name)
             print(f"Congrats {self.current_player.name}, you are the winner! \n")
         else:
@@ -98,12 +98,13 @@ class Game:
 
     def is_game_over(self, current_player_score):
         """Determine whether the game is over.
+
         Return True if player has 50 or more, otherwise return False.
         """
         return bool(current_player_score >= self.WINNING_SCORE)
 
     def reset_game(self):
-        """Reset the game by resetting all the attributes to their default values:"""
+        """Reset the game by resetting all the attributes to their default values."""
         self.player_1.score = 0
         self.player_2.score = 0
         self.current_player = self.player_1
@@ -113,7 +114,7 @@ class Game:
         self.dice_value = None
 
     def cheat(self):
-        """Set the score of the current player to WINNING_SCORE (50)"""
+        """Set the score of the current player to WINNING_SCORE (50)."""
         self.current_player.score += self.WINNING_SCORE
 
         # declare the current player as the winner
