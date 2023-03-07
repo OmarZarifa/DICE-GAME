@@ -8,7 +8,7 @@ The objective of the game is to be the first player to reach a score of 50. Play
 
 Getting started 
 --------------------------
-To get started with the Pig Dice Game, follow these steps:
+To get started with the Pig Dice Game, you must follow the steps listed below. Please notice, that you need only to do steps 1 - 4 if you want just to play the game. All the steps, starting from step 5 (Testing), are optional steps that you might use for developing purposes.
 ### 1. Check version of Python
 To get started with the game, you'll need to have Python 3.6 or later installed on your system. You can check your Python version by following these steps:
 1. Open the command prompt.
@@ -34,13 +34,13 @@ cd DICE-GAME
 
 ### 3. Setting up a Virtual Environment
 It's recommended to use a virtual environment to isolate the dependencies required for this project. To create a new virtual environment, do the following:
-###### 3.1  Create a new virtual environment by running:
+#### 3.1  Create a new virtual environment by running:
 ```bash
 make venv
 ```
 This will create a new virtual environment in the venv directory.
 
-###### 3.2  Activate the virtual environment by running:
+#### 3.2  Activate the virtual environment by running:
 
 On Windows:
 ```bash
@@ -51,7 +51,7 @@ On Linux/Mac:
 . .venv/bin/activate
 ```
 
-###### 3.3  Installing Dependencies 
+#### 3.3  Installing Dependencies 
 Next, you'll need to install the required dependencies listed in 'requirements.txt'. To do this, run:
 ```bash
 make install
@@ -63,7 +63,7 @@ To check what dependecies are installed, run:
 make installed
 ```
 
-###### 3.4  Deactivate the venv (Only when you are done!)
+#### 3.4  Deactivate the venv (Only when you are done!)
 When you are done, you can leave the venv using the command:
 ```bash
 deactivate
@@ -107,6 +107,21 @@ make coverage
 This will run the unittests and generate a code coverage report in the htmlcov directory. Open htmlcov/index.html in your web browser to view the report.
 
 Read more on [coverage](https://coverage.readthedocs.io/)
+
+### 5.3 Run parts of the testsuite
+If you don't want to run the whole unittest, then you can run only parts of it. For examples files or methods in files.
+
+* You can run all tests from a testfile by running:
+
+```bash
+python -m unittest test.test_game
+```
+
+* You can also run a single testcase from a file. For example, Run a test method, in a class, in a testfile using:
+
+```bash
+python -m unittest test.test_game.TestGameClass.test_init_default_object
+```
 
 ### 6. Code Validators
 This project includes static code validators to help ensure code quality and improve code style.
@@ -152,65 +167,31 @@ This will generate HTML documentation in the html directory. Open 'html/index.ht
 To generate HTML documentation using pydoc, run the following command:
 ```bash
 make pydoc
-``
+```
 This will generate HTML documentation in the html directory. Open 'html/index.html' in your web browser to view the documentation.
 
 
 ### 8. Generating a UML Diagram
 To generate a UML diagram of the code using pyreverse, run the following command:
-
-
-
-
-
-
-
-
-
-
-
-
-### Run parts of the testsuite
-
-You can also run parts of the testsuite, for examples files or methods in files.
-
-You can run all tests from a testfile.
-
+```bash
+make pyreverse
 ```
-# Run a testfile
-python -m unittest test.test_game
-```
-
-You can also run a single testcase from a file.
-
-```
-# Run a test method, in a class, in a testfile
-python -m unittest test.test_game.TestGameClass.test_init_default_object
-```
+This will generate a UML diagram for the Pig Dice Game using the pyreverse tool
 
 
-
-### Remove generated files
-
-You can remove all generated files by this.
-
-```
-# Remove files generated for tests or caching
+### 9. Remove generated files
+In this project, you can remove generated and installed files.
+* To remove files generated for tests or caching, run:
+```bash
 make clean
-
-# Do also remove all you have installed
-make clean-all
 ```
+* To remove files generated for documentation and UML, run:
+```bash
+make clean-doc
+```
+* To remove files generated from, tests, caching, documentation and UML, run:
+```bash
+make clean-doc
+```
+This command combines the two commands: 'make clean' and 'make clean-doc'
 
-
-
-Optional targets
---------------------------
-
-These targets might be helpful when running your project.
-
-
-More targets
---------------------------
-
-The Makefile contains more targets, they are however not yet tested on this directory structure.
