@@ -191,7 +191,7 @@ make clean-doc
 ```
 * To remove files generated from, tests, caching, documentation and UML, run:
 ```bash
-make clean-doc
+make clean-all
 ```
-This command combines the two commands: 'make clean' and 'make clean-doc'
+The command 'make clean-all' combines the two commands: 'make clean' and 'make clean-doc'
 
