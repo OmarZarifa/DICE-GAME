@@ -1,7 +1,7 @@
 DICE GAME PIG
 ==========================
 
-This is a Python implementation of the classic Pig Dice game, which can be played by one or two players. The game is written in Python 3 and provides a command-line interface for playing the game
+This is a Python implementation of the classic Pig Dice game, which can be played by one or two players. The game is written in Python 3 and provides a command-line interface for playing the game. The goal of this project ist to write object-oriented clean python code using TDD approach.
 
 The objective of the game is to be the first player to reach a score of 50. Players take turns rolling a single die as many times as they wish, with the goal of accumulating as many points as possible without rolling a 1. 
 
