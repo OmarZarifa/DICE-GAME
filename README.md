@@ -89,8 +89,9 @@ python main.py
 After running the game successfully, follow the prompts to play the game.
 
 ### 5. Testing
+This project includes unittests. The testfiles are stored in the `tests/` directory.
 #### 5.1 Run the unittests
-This project includes unittests, that can be run with the following command:
+To run the unittest, run the following command:
 ```bash
 make test
 ```
@@ -128,7 +129,7 @@ This will check the code for quality issues using the pylint linter.
 Read more on [pylint](https://pylint.org/)
 
 
-Important notes:
+###### Important notes:
 * To check for the PEP 8 Compliance & the pylint compliance at the same time, run:
 ```bash
 make lint
@@ -137,30 +138,36 @@ make lint
 
 * You might need to update the Makefile if you change the name of the source directory currently named `app/`.
 
+### 7. Generating Documentation
+This project includes several tools to generate documentation for the code.
 
-
-
-
-### Run the unittests
-
-You can run the unittests like this. The testfiles are stored in the `test/` directory.
-
+#### 7.1 pdoc
+To generate HTML documentation using pdoc, run the following command:
+```bash
+make pdoc
 ```
-# Run unttests without coverage
-make unittest
+This will generate HTML documentation in the html directory. Open 'html/index.html' in your web browser to view the documentation.
 
-# Run unittests with coverage
-make coverage
+#### 7.2 pydoc
+To generate HTML documentation using pydoc, run the following command:
+```bash
+make pydoc
+``
+This will generate HTML documentation in the html directory. Open 'html/index.html' in your web browser to view the documentation.
 
-# Run the linters and the unittests with coverage
-make test
-```
 
-You can open a web browser to inspect the code coverage as a generated HTML report.
+### 8. Generating a UML Diagram
+To generate a UML diagram of the code using pyreverse, run the following command:
 
-```
-firefox htmlcov/index.html
-```
+
+
+
+
+
+
+
+
+
 
 
 ### Run parts of the testsuite
