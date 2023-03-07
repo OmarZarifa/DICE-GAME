@@ -110,7 +110,7 @@ python -m unittest tests.test_game
 * You can also run a single testcase from a file. For example, Run a test method, in a class, in a testfile using:
 
 ```bash
-python -m unittest test.test_game.TestGameClass.test_init_default_object
+python -m unittest tests.test_game.TestGameClass.test_computer_roll
 ```
 
 ### 5. Code Validators
