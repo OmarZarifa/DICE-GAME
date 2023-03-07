@@ -108,7 +108,7 @@ This will run the unittests and generate a code coverage report in the htmlcov d
 
 Read more on [coverage](https://coverage.readthedocs.io/)
 
-### 5.3 Run parts of the testsuite
+#### 5.3 Run parts of the testsuite
 If you don't want to run the whole unittest, then you can run only parts of it. For examples files or methods in files.
 
 * You can run all tests from a testfile by running:
