@@ -23,6 +23,7 @@ if __name__ == '__main__':
     print(f"*{row3}*")
     print("")
     print("Help!")
+    print("+-------+\n| O     |\n|   O   |\n|     O |\n+-------+\n")
     # Create command object
     shell = Shell()
     # Start game

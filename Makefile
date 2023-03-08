@@ -31,6 +31,8 @@ check-venv:
 		exit 1; \
 	fi
 
+activate:
+	. .venv/Scripts/activate
 # ---------------------------------------------------------
 # Work with unit test and code coverage.
 #
@@ -52,7 +54,7 @@ pylint:
 
 flake8:
 	@$(call MESSAGE,$@)
-	-flake8
+	cd app/ && flake8
 
 lint: flake8 pylint
 
