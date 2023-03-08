@@ -66,7 +66,7 @@
                                 <a class="function" href="#Shell.do_score">do_score</a>
                         </li>
                         <li>
-                                <a class="function" href="#Shell.do_EOF">do_EOF</a>
+                                <a class="function" href="#Shell.do_eof">do_eof</a>
                         </li>
                         <li>
                                 <a class="function" href="#Shell.emptyline">emptyline</a>
@@ -93,166 +93,177 @@
                     <h1 class="modulename">
 app<wbr>.shell    </h1>
 
-                
+                        <div class="docstring"><p>The Shell module provides a simple shell interface for interacting with the command line.</p>
+
+<p>The Shell class can be used to create a command line interface that accepts user input,
+executes shell commands, and displays the output to the user.</p>
+
+<p>Commands:
+    The Shell supports the following commands:
+        - help        - Display this help message")
+        - rules       - Display the rules of the game")
+        - start [1|2] - Start a new game against the computer or with two players")
+        - roll        - Roll the dice")
+        - pass        - Pass rolling to the other player")
+        - restart     - Restart the current game")
+        - exit        - Exit the current game")
+        - cheat       - Cheat and reach 100 points in the game")
+        - score       - Display the high scores")</p>
+</div>
+
                         <input id="mod-shell-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-shell-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="kn">from</span> <span class="nn">cmd</span> <span class="kn">import</span> <span class="n">Cmd</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="kn">from</span> <span class="nn">app.highScore</span> <span class="kn">import</span> <span class="n">HighScore</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="kn">from</span> <span class="nn">app.game</span> <span class="kn">import</span> <span class="n">Game</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="k">class</span> <span class="nc">Shell</span><span class="p">(</span><span class="n">Cmd</span><span class="p">):</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>    <span class="n">intro</span> <span class="o">=</span> <span class="s1">&#39;Type help or ? to list commands.</span><span class="se">\n</span><span class="s1">&#39;</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a>    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;&gt; &#39;</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a>
-</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Init game object.&quot;&quot;&quot;</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">high_score</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>
-</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>    <span class="k">def</span> <span class="nf">do_help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the available commands&quot;&quot;&quot;</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available commands:&quot;</span><span class="p">)</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;help        - Display this help message&quot;</span><span class="p">)</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rules       - Display the rules of the game&quot;</span><span class="p">)</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start [1|2] - Start a new game against the computer or with two players&quot;</span><span class="p">)</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;roll        - Roll the dice&quot;</span><span class="p">)</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pass        - Pass rolling to the other player&quot;</span><span class="p">)</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;restart     - Restart the current game&quot;</span><span class="p">)</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit        - Exit the current game&quot;</span><span class="p">)</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cheat       - Cheat and reach 100 points in the game&quot;</span><span class="p">)</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;score   - Display the high scores&quot;</span><span class="p">)</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="sd">The Shell module provides a simple shell interface for interacting with the command line.</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="sd">The Shell class can be used to create a command line interface that accepts user input,</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="sd">executes shell commands, and displays the output to the user.</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="sd">Commands:</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="sd">    The Shell supports the following commands:</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="sd">        - help        - Display this help message&quot;)</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="sd">        - rules       - Display the rules of the game&quot;)</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">        - start [1|2] - Start a new game against the computer or with two players&quot;)</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">        - roll        - Roll the dice&quot;)</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="sd">        - pass        - Pass rolling to the other player&quot;)</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd">        - restart     - Restart the current game&quot;)</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="sd">        - exit        - Exit the current game&quot;)</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="sd">        - cheat       - Cheat and reach 100 points in the game&quot;)</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="sd">        - score       - Display the high scores&quot;)</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>
+</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="kn">from</span> <span class="nn">cmd</span> <span class="kn">import</span> <span class="n">Cmd</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="kn">from</span> <span class="nn">app.highscore</span> <span class="kn">import</span> <span class="n">HighScore</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="kn">from</span> <span class="nn">app.game</span> <span class="kn">import</span> <span class="n">Game</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a><span class="k">class</span> <span class="nc">Shell</span><span class="p">(</span><span class="n">Cmd</span><span class="p">):</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Class Shell.&quot;&quot;&quot;</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>
-</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>    <span class="k">def</span> <span class="nf">do_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the rules of the game&quot;&quot;&quot;</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="s2">        Pig Dice is a game for two players, in which the players take turns rolling a single die.</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="s2">        The goal of the game is to reach 100 points before the other player does.</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>    <span class="n">intro</span> <span class="o">=</span> <span class="s1">&#39;Type help or ? to list commands.</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;&gt; &#39;</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a new instance of the Shell class.</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>
-</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a><span class="s2">        On each turn, the player rolls the die as many times as they want, accumulating points for each roll.</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="s2">        However, if the player rolls a 1, they lose all the points they have accumulated on that turn, and the turn ends.</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="s2">        If the player rolls a 6, they lose all the points they have accumulated in the game so far, and the turn ends.</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="s2">        The player can choose to end their turn at any time and add their accumulated points to their total score.</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="s2">        The turn then passes to the other player.</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="s2">        If a player reaches 100 points, the game ends and that player wins.</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>    <span class="k">def</span> <span class="nf">do_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Start a new game&quot;&quot;&quot;</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>        <span class="n">num_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>        <span class="k">if</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter your name: &quot;</span><span class="p">)</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>            <span class="n">level</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Select computer intelligence level (dumb, medium or hard): &quot;</span><span class="p">)</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="k">elif</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the first player: &quot;</span><span class="p">)</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>            <span class="n">player2_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the second player: &quot;</span><span class="p">)</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">)</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;We were not able to start the game, please enter a valid choice using&quot;</span><span class="p">)</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 1&#39; for playing with computer&quot;</span><span class="p">)</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 2&#39; for playing with another player&quot;</span><span class="p">)</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a><span class="sd">        Create a Game object and a HighScore object.</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">high_score</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="k">def</span> <span class="nf">do_help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the available commands.&quot;&quot;&quot;</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available commands:&quot;</span><span class="p">)</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;help        - Display this help message&quot;</span><span class="p">)</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rules       - Display the rules of the game&quot;</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start [1|2] - Start a new game against the computer or with two players&quot;</span><span class="p">)</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;roll        - Roll the dice&quot;</span><span class="p">)</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pass        - Pass rolling to the other player&quot;</span><span class="p">)</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;restart     - Restart the current game&quot;</span><span class="p">)</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit        - Exit the current game&quot;</span><span class="p">)</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cheat       - Cheat and reach 100 points in the game&quot;</span><span class="p">)</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;score   - Display the high scores&quot;</span><span class="p">)</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>    <span class="k">def</span> <span class="nf">do_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the rules of the game.&quot;&quot;&quot;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="s2">        Pig Dice is a game for two players, in which the players take turns rolling a single die.</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="s2">        The goal of the game is to reach 100 points before the other player does.</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="s2">        On each turn, the player rolls the die as many times as they want, accumulating points for each roll.</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="s2">        However, if the player rolls a 1, they lose all the points they have accumulated on that turn, and the turn ends.</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="s2">        If the player rolls a 6, they lose all the points they have accumulated in the game so far, and the turn ends.</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a><span class="s2">        The player can choose to end their turn at any time and add their accumulated points to their total score.</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="s2">        The turn then passes to the other player.</span>
 </span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>    <span class="k">def</span> <span class="nf">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice&quot;&quot;&quot;</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">):</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>    <span class="k">def</span> <span class="nf">do_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass rolling to the other player&quot;&quot;&quot;</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>    <span class="k">def</span> <span class="nf">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Restart the current game&quot;&quot;&quot;</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">reset_game</span><span class="p">()</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game restarted&quot;</span><span class="p">)</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>    <span class="k">def</span> <span class="nf">do_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the game&quot;&quot;&quot;</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thank you for playing Pig Dice Game!&quot;</span><span class="p">)</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="k">return</span> <span class="kc">True</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>    <span class="k">def</span> <span class="nf">do_cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">cheat</span><span class="p">()</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, congrats, you win, cheater! &quot;</span><span class="p">)</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">do_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No games are played. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="s2">        If a player reaches 50 points, the game ends and that player wins.</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>    <span class="k">def</span> <span class="nf">do_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Start a new game with one or two players, depending on the user&#39;s input.&quot;&quot;&quot;</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>        <span class="n">num_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>        <span class="k">if</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter your name: &quot;</span><span class="p">)</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>            <span class="n">level</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Select computer intelligence level (dumb, medium or hard): &quot;</span><span class="p">)</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="k">elif</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the first player: &quot;</span><span class="p">)</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>            <span class="n">player2_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the second player: &quot;</span><span class="p">)</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">)</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;We were not able to start the game, please enter a valid choice using&quot;</span><span class="p">)</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 1&#39; for playing with computer&quot;</span><span class="p">)</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 2&#39; for playing with another player&quot;</span><span class="p">)</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>    <span class="k">def</span> <span class="nf">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice for the current player.&quot;&quot;&quot;</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">):</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>    <span class="k">def</span> <span class="nf">do_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass rolling to the other player and do the first roll.&quot;&quot;&quot;</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">    def do_start(self, arg):</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">        #Start a new game</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="sd">        if self.game is not None and not self.game.is_over:</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">            confirm = input(&quot;Are you sure you want to start a new game? (Y/N) &quot;)</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">            if confirm.lower() != &#39;y&#39;:</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">                return</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="sd">        try:</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">            num_players = int(arg)</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">            if num_players == 1:</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="sd">                #player1_name = input(&quot;Enter your name: &quot;)</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="sd">                #level = input(&quot;Enter computer intelligence level (dumb, medium or hard): &quot;)</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="sd">                #self.game = Game(Player(player1_name), Player(&quot;Computer&quot;, level=int(level)))</span>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">                name = input(&quot;Please enter your name: &quot;)</span>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="sd">                level = input(&quot;Select computer intelligence level (dumb, medium or hard): &quot;)</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="sd">                game =  Game(name, &quot;computer&quot;)</span>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="sd">                game.computer_playing(level)</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>    <span class="k">def</span> <span class="nf">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Restart the current game.&quot;&quot;&quot;</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress.Use the &#39;start 1&#39; or &#39;start 2&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">reset_game</span><span class="p">()</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game restarted&quot;</span><span class="p">)</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="k">def</span> <span class="nf">do_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the game.&quot;&quot;&quot;</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thank you for playing Pig Dice Game!&quot;</span><span class="p">)</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="k">return</span> <span class="kc">True</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>    <span class="k">def</span> <span class="nf">do_cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Allow the current player to cheat and reach 50 points in the game.&quot;&quot;&quot;</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">cheat</span><span class="p">()</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, congrats, you win, cheater! &quot;</span><span class="p">)</span>
 </span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="sd">            elif num_players == 2:</span>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="sd">                #player1_name = input(&quot;Enter player 1 name: &quot;)</span>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="sd">                #player2_name = input(&quot;Enter player 2 name: &quot;)</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="sd">                #self.game = Game(Player(player1_name), Player(player2_name))</span>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="sd">                name1 = input(&quot;Enter the name of the first player: &quot;)</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="sd">                name2 = input(&quot;Enter the name of the second player: &quot;)</span>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="sd">                game = Game(name1, name2)</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="sd">                game.human_playing()</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="sd">            else:</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="sd">                raise ValueError</span>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="sd">            print(&quot;New game started.&quot;)</span>
-</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="sd">            self.game.show_scores()</span>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="sd">        except ValueError:</span>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a><span class="sd">            print(&quot;Invalid number of players. Please enter 1 or 2.&quot;)</span>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>    <span class="k">def</span> <span class="nf">do_EOF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate the shell&quot;&quot;&quot;</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>        <span class="k">return</span> <span class="kc">True</span>
-</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>    <span class="k">def</span> <span class="nf">emptyline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Override the method to do nothing, since we don&#39;t want the shell to repeat the last command if the user enters an empty line.&quot;&quot;&quot;</span>
-</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>        <span class="k">pass</span>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid command. Type &#39;help&#39; or &#39;?&#39; to see list of available commands.&quot;</span><span class="p">)</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>    <span class="k">def</span> <span class="nf">do_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the high scores of all completed games.&quot;&quot;&quot;</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No games are played. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>    <span class="k">def</span> <span class="nf">do_eof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate the shell.&quot;&quot;&quot;</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>        <span class="k">return</span> <span class="kc">True</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>    <span class="k">def</span> <span class="nf">emptyline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Override the method to do nothing.</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="sd">        since we don&#39;t want the shell to repeat the last command if the user enters an empty line.</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display an error message when the user enters an invalid command.&quot;&quot;&quot;</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid command. Type &#39;help&#39; or &#39;?&#39; to see list of available commands.&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -268,168 +279,134 @@ app<wbr>.shell    </h1>
 
     </div>
     <a class="headerlink" href="#Shell"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell-7"><a href="#Shell-7"><span class="linenos">  7</span></a><span class="k">class</span> <span class="nc">Shell</span><span class="p">(</span><span class="n">Cmd</span><span class="p">):</span>
-</span><span id="Shell-8"><a href="#Shell-8"><span class="linenos">  8</span></a>    <span class="n">intro</span> <span class="o">=</span> <span class="s1">&#39;Type help or ? to list commands.</span><span class="se">\n</span><span class="s1">&#39;</span>
-</span><span id="Shell-9"><a href="#Shell-9"><span class="linenos">  9</span></a>    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;&gt; &#39;</span>
-</span><span id="Shell-10"><a href="#Shell-10"><span class="linenos"> 10</span></a>
-</span><span id="Shell-11"><a href="#Shell-11"><span class="linenos"> 11</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Shell-12"><a href="#Shell-12"><span class="linenos"> 12</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Init game object.&quot;&quot;&quot;</span>
-</span><span id="Shell-13"><a href="#Shell-13"><span class="linenos"> 13</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-</span><span id="Shell-14"><a href="#Shell-14"><span class="linenos"> 14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="Shell-15"><a href="#Shell-15"><span class="linenos"> 15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">high_score</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
-</span><span id="Shell-16"><a href="#Shell-16"><span class="linenos"> 16</span></a>
-</span><span id="Shell-17"><a href="#Shell-17"><span class="linenos"> 17</span></a>    <span class="k">def</span> <span class="nf">do_help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell-18"><a href="#Shell-18"><span class="linenos"> 18</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the available commands&quot;&quot;&quot;</span>
-</span><span id="Shell-19"><a href="#Shell-19"><span class="linenos"> 19</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available commands:&quot;</span><span class="p">)</span>
-</span><span id="Shell-20"><a href="#Shell-20"><span class="linenos"> 20</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;help        - Display this help message&quot;</span><span class="p">)</span>
-</span><span id="Shell-21"><a href="#Shell-21"><span class="linenos"> 21</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rules       - Display the rules of the game&quot;</span><span class="p">)</span>
-</span><span id="Shell-22"><a href="#Shell-22"><span class="linenos"> 22</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start [1|2] - Start a new game against the computer or with two players&quot;</span><span class="p">)</span>
-</span><span id="Shell-23"><a href="#Shell-23"><span class="linenos"> 23</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;roll        - Roll the dice&quot;</span><span class="p">)</span>
-</span><span id="Shell-24"><a href="#Shell-24"><span class="linenos"> 24</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pass        - Pass rolling to the other player&quot;</span><span class="p">)</span>
-</span><span id="Shell-25"><a href="#Shell-25"><span class="linenos"> 25</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;restart     - Restart the current game&quot;</span><span class="p">)</span>
-</span><span id="Shell-26"><a href="#Shell-26"><span class="linenos"> 26</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit        - Exit the current game&quot;</span><span class="p">)</span>
-</span><span id="Shell-27"><a href="#Shell-27"><span class="linenos"> 27</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cheat       - Cheat and reach 100 points in the game&quot;</span><span class="p">)</span>
-</span><span id="Shell-28"><a href="#Shell-28"><span class="linenos"> 28</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;score   - Display the high scores&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell-27"><a href="#Shell-27"><span class="linenos"> 27</span></a><span class="k">class</span> <span class="nc">Shell</span><span class="p">(</span><span class="n">Cmd</span><span class="p">):</span>
+</span><span id="Shell-28"><a href="#Shell-28"><span class="linenos"> 28</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Class Shell.&quot;&quot;&quot;</span>
 </span><span id="Shell-29"><a href="#Shell-29"><span class="linenos"> 29</span></a>
-</span><span id="Shell-30"><a href="#Shell-30"><span class="linenos"> 30</span></a>    <span class="k">def</span> <span class="nf">do_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell-31"><a href="#Shell-31"><span class="linenos"> 31</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the rules of the game&quot;&quot;&quot;</span>
-</span><span id="Shell-32"><a href="#Shell-32"><span class="linenos"> 32</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-</span><span id="Shell-33"><a href="#Shell-33"><span class="linenos"> 33</span></a><span class="s2">        Pig Dice is a game for two players, in which the players take turns rolling a single die.</span>
-</span><span id="Shell-34"><a href="#Shell-34"><span class="linenos"> 34</span></a><span class="s2">        The goal of the game is to reach 100 points before the other player does.</span>
+</span><span id="Shell-30"><a href="#Shell-30"><span class="linenos"> 30</span></a>    <span class="n">intro</span> <span class="o">=</span> <span class="s1">&#39;Type help or ? to list commands.</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span><span id="Shell-31"><a href="#Shell-31"><span class="linenos"> 31</span></a>    <span class="n">prompt</span> <span class="o">=</span> <span class="s1">&#39;&gt; &#39;</span>
+</span><span id="Shell-32"><a href="#Shell-32"><span class="linenos"> 32</span></a>
+</span><span id="Shell-33"><a href="#Shell-33"><span class="linenos"> 33</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Shell-34"><a href="#Shell-34"><span class="linenos"> 34</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a new instance of the Shell class.</span>
 </span><span id="Shell-35"><a href="#Shell-35"><span class="linenos"> 35</span></a>
-</span><span id="Shell-36"><a href="#Shell-36"><span class="linenos"> 36</span></a><span class="s2">        On each turn, the player rolls the die as many times as they want, accumulating points for each roll.</span>
-</span><span id="Shell-37"><a href="#Shell-37"><span class="linenos"> 37</span></a><span class="s2">        However, if the player rolls a 1, they lose all the points they have accumulated on that turn, and the turn ends.</span>
-</span><span id="Shell-38"><a href="#Shell-38"><span class="linenos"> 38</span></a><span class="s2">        If the player rolls a 6, they lose all the points they have accumulated in the game so far, and the turn ends.</span>
-</span><span id="Shell-39"><a href="#Shell-39"><span class="linenos"> 39</span></a>
-</span><span id="Shell-40"><a href="#Shell-40"><span class="linenos"> 40</span></a><span class="s2">        The player can choose to end their turn at any time and add their accumulated points to their total score.</span>
-</span><span id="Shell-41"><a href="#Shell-41"><span class="linenos"> 41</span></a><span class="s2">        The turn then passes to the other player.</span>
-</span><span id="Shell-42"><a href="#Shell-42"><span class="linenos"> 42</span></a>
-</span><span id="Shell-43"><a href="#Shell-43"><span class="linenos"> 43</span></a><span class="s2">        If a player reaches 100 points, the game ends and that player wins.</span>
-</span><span id="Shell-44"><a href="#Shell-44"><span class="linenos"> 44</span></a><span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
-</span><span id="Shell-45"><a href="#Shell-45"><span class="linenos"> 45</span></a>
-</span><span id="Shell-46"><a href="#Shell-46"><span class="linenos"> 46</span></a>    <span class="k">def</span> <span class="nf">do_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-</span><span id="Shell-47"><a href="#Shell-47"><span class="linenos"> 47</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Start a new game&quot;&quot;&quot;</span>
-</span><span id="Shell-48"><a href="#Shell-48"><span class="linenos"> 48</span></a>
-</span><span id="Shell-49"><a href="#Shell-49"><span class="linenos"> 49</span></a>        <span class="n">num_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
-</span><span id="Shell-50"><a href="#Shell-50"><span class="linenos"> 50</span></a>        <span class="k">if</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Shell-51"><a href="#Shell-51"><span class="linenos"> 51</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter your name: &quot;</span><span class="p">)</span>
-</span><span id="Shell-52"><a href="#Shell-52"><span class="linenos"> 52</span></a>            <span class="n">level</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Select computer intelligence level (dumb, medium or hard): &quot;</span><span class="p">)</span>
-</span><span id="Shell-53"><a href="#Shell-53"><span class="linenos"> 53</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
-</span><span id="Shell-54"><a href="#Shell-54"><span class="linenos"> 54</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-</span><span id="Shell-55"><a href="#Shell-55"><span class="linenos"> 55</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
-</span><span id="Shell-56"><a href="#Shell-56"><span class="linenos"> 56</span></a>
-</span><span id="Shell-57"><a href="#Shell-57"><span class="linenos"> 57</span></a>        <span class="k">elif</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-</span><span id="Shell-58"><a href="#Shell-58"><span class="linenos"> 58</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the first player: &quot;</span><span class="p">)</span>
-</span><span id="Shell-59"><a href="#Shell-59"><span class="linenos"> 59</span></a>            <span class="n">player2_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the second player: &quot;</span><span class="p">)</span>
-</span><span id="Shell-60"><a href="#Shell-60"><span class="linenos"> 60</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">)</span>
-</span><span id="Shell-61"><a href="#Shell-61"><span class="linenos"> 61</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
-</span><span id="Shell-62"><a href="#Shell-62"><span class="linenos"> 62</span></a>
-</span><span id="Shell-63"><a href="#Shell-63"><span class="linenos"> 63</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell-64"><a href="#Shell-64"><span class="linenos"> 64</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;We were not able to start the game, please enter a valid choice using&quot;</span><span class="p">)</span>
-</span><span id="Shell-65"><a href="#Shell-65"><span class="linenos"> 65</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 1&#39; for playing with computer&quot;</span><span class="p">)</span>
-</span><span id="Shell-66"><a href="#Shell-66"><span class="linenos"> 66</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 2&#39; for playing with another player&quot;</span><span class="p">)</span>
+</span><span id="Shell-36"><a href="#Shell-36"><span class="linenos"> 36</span></a><span class="sd">        Create a Game object and a HighScore object.</span>
+</span><span id="Shell-37"><a href="#Shell-37"><span class="linenos"> 37</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Shell-38"><a href="#Shell-38"><span class="linenos"> 38</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span><span id="Shell-39"><a href="#Shell-39"><span class="linenos"> 39</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Shell-40"><a href="#Shell-40"><span class="linenos"> 40</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">high_score</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
+</span><span id="Shell-41"><a href="#Shell-41"><span class="linenos"> 41</span></a>
+</span><span id="Shell-42"><a href="#Shell-42"><span class="linenos"> 42</span></a>    <span class="k">def</span> <span class="nf">do_help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-43"><a href="#Shell-43"><span class="linenos"> 43</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the available commands.&quot;&quot;&quot;</span>
+</span><span id="Shell-44"><a href="#Shell-44"><span class="linenos"> 44</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available commands:&quot;</span><span class="p">)</span>
+</span><span id="Shell-45"><a href="#Shell-45"><span class="linenos"> 45</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;help        - Display this help message&quot;</span><span class="p">)</span>
+</span><span id="Shell-46"><a href="#Shell-46"><span class="linenos"> 46</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rules       - Display the rules of the game&quot;</span><span class="p">)</span>
+</span><span id="Shell-47"><a href="#Shell-47"><span class="linenos"> 47</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start [1|2] - Start a new game against the computer or with two players&quot;</span><span class="p">)</span>
+</span><span id="Shell-48"><a href="#Shell-48"><span class="linenos"> 48</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;roll        - Roll the dice&quot;</span><span class="p">)</span>
+</span><span id="Shell-49"><a href="#Shell-49"><span class="linenos"> 49</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pass        - Pass rolling to the other player&quot;</span><span class="p">)</span>
+</span><span id="Shell-50"><a href="#Shell-50"><span class="linenos"> 50</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;restart     - Restart the current game&quot;</span><span class="p">)</span>
+</span><span id="Shell-51"><a href="#Shell-51"><span class="linenos"> 51</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit        - Exit the current game&quot;</span><span class="p">)</span>
+</span><span id="Shell-52"><a href="#Shell-52"><span class="linenos"> 52</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cheat       - Cheat and reach 100 points in the game&quot;</span><span class="p">)</span>
+</span><span id="Shell-53"><a href="#Shell-53"><span class="linenos"> 53</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;score   - Display the high scores&quot;</span><span class="p">)</span>
+</span><span id="Shell-54"><a href="#Shell-54"><span class="linenos"> 54</span></a>
+</span><span id="Shell-55"><a href="#Shell-55"><span class="linenos"> 55</span></a>    <span class="k">def</span> <span class="nf">do_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-56"><a href="#Shell-56"><span class="linenos"> 56</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the rules of the game.&quot;&quot;&quot;</span>
+</span><span id="Shell-57"><a href="#Shell-57"><span class="linenos"> 57</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="Shell-58"><a href="#Shell-58"><span class="linenos"> 58</span></a><span class="s2">        Pig Dice is a game for two players, in which the players take turns rolling a single die.</span>
+</span><span id="Shell-59"><a href="#Shell-59"><span class="linenos"> 59</span></a><span class="s2">        The goal of the game is to reach 100 points before the other player does.</span>
+</span><span id="Shell-60"><a href="#Shell-60"><span class="linenos"> 60</span></a>
+</span><span id="Shell-61"><a href="#Shell-61"><span class="linenos"> 61</span></a><span class="s2">        On each turn, the player rolls the die as many times as they want, accumulating points for each roll.</span>
+</span><span id="Shell-62"><a href="#Shell-62"><span class="linenos"> 62</span></a><span class="s2">        However, if the player rolls a 1, they lose all the points they have accumulated on that turn, and the turn ends.</span>
+</span><span id="Shell-63"><a href="#Shell-63"><span class="linenos"> 63</span></a><span class="s2">        If the player rolls a 6, they lose all the points they have accumulated in the game so far, and the turn ends.</span>
+</span><span id="Shell-64"><a href="#Shell-64"><span class="linenos"> 64</span></a>
+</span><span id="Shell-65"><a href="#Shell-65"><span class="linenos"> 65</span></a><span class="s2">        The player can choose to end their turn at any time and add their accumulated points to their total score.</span>
+</span><span id="Shell-66"><a href="#Shell-66"><span class="linenos"> 66</span></a><span class="s2">        The turn then passes to the other player.</span>
 </span><span id="Shell-67"><a href="#Shell-67"><span class="linenos"> 67</span></a>
-</span><span id="Shell-68"><a href="#Shell-68"><span class="linenos"> 68</span></a>    <span class="k">def</span> <span class="nf">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell-69"><a href="#Shell-69"><span class="linenos"> 69</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice&quot;&quot;&quot;</span>
-</span><span id="Shell-70"><a href="#Shell-70"><span class="linenos"> 70</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell-71"><a href="#Shell-71"><span class="linenos"> 71</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell-72"><a href="#Shell-72"><span class="linenos"> 72</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">):</span>
-</span><span id="Shell-73"><a href="#Shell-73"><span class="linenos"> 73</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</span><span id="Shell-74"><a href="#Shell-74"><span class="linenos"> 74</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell-75"><a href="#Shell-75"><span class="linenos"> 75</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
-</span><span id="Shell-76"><a href="#Shell-76"><span class="linenos"> 76</span></a>
-</span><span id="Shell-77"><a href="#Shell-77"><span class="linenos"> 77</span></a>    <span class="k">def</span> <span class="nf">do_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell-78"><a href="#Shell-78"><span class="linenos"> 78</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass rolling to the other player&quot;&quot;&quot;</span>
-</span><span id="Shell-79"><a href="#Shell-79"><span class="linenos"> 79</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell-80"><a href="#Shell-80"><span class="linenos"> 80</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell-81"><a href="#Shell-81"><span class="linenos"> 81</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell-82"><a href="#Shell-82"><span class="linenos"> 82</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
-</span><span id="Shell-83"><a href="#Shell-83"><span class="linenos"> 83</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</span><span id="Shell-84"><a href="#Shell-84"><span class="linenos"> 84</span></a>
-</span><span id="Shell-85"><a href="#Shell-85"><span class="linenos"> 85</span></a>    <span class="k">def</span> <span class="nf">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-</span><span id="Shell-86"><a href="#Shell-86"><span class="linenos"> 86</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Restart the current game&quot;&quot;&quot;</span>
-</span><span id="Shell-87"><a href="#Shell-87"><span class="linenos"> 87</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell-88"><a href="#Shell-88"><span class="linenos"> 88</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell-89"><a href="#Shell-89"><span class="linenos"> 89</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell-90"><a href="#Shell-90"><span class="linenos"> 90</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">reset_game</span><span class="p">()</span>
-</span><span id="Shell-91"><a href="#Shell-91"><span class="linenos"> 91</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game restarted&quot;</span><span class="p">)</span>
-</span><span id="Shell-92"><a href="#Shell-92"><span class="linenos"> 92</span></a>
-</span><span id="Shell-93"><a href="#Shell-93"><span class="linenos"> 93</span></a>    <span class="k">def</span> <span class="nf">do_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell-94"><a href="#Shell-94"><span class="linenos"> 94</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the game&quot;&quot;&quot;</span>
-</span><span id="Shell-95"><a href="#Shell-95"><span class="linenos"> 95</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thank you for playing Pig Dice Game!&quot;</span><span class="p">)</span>
-</span><span id="Shell-96"><a href="#Shell-96"><span class="linenos"> 96</span></a>        <span class="k">return</span> <span class="kc">True</span>
-</span><span id="Shell-97"><a href="#Shell-97"><span class="linenos"> 97</span></a>
-</span><span id="Shell-98"><a href="#Shell-98"><span class="linenos"> 98</span></a>    <span class="k">def</span> <span class="nf">do_cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell-99"><a href="#Shell-99"><span class="linenos"> 99</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell-100"><a href="#Shell-100"><span class="linenos">100</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell-101"><a href="#Shell-101"><span class="linenos">101</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell-102"><a href="#Shell-102"><span class="linenos">102</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">cheat</span><span class="p">()</span>
-</span><span id="Shell-103"><a href="#Shell-103"><span class="linenos">103</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, congrats, you win, cheater! &quot;</span><span class="p">)</span>
-</span><span id="Shell-104"><a href="#Shell-104"><span class="linenos">104</span></a>
-</span><span id="Shell-105"><a href="#Shell-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">do_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell-106"><a href="#Shell-106"><span class="linenos">106</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell-107"><a href="#Shell-107"><span class="linenos">107</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No games are played. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell-68"><a href="#Shell-68"><span class="linenos"> 68</span></a><span class="s2">        If a player reaches 50 points, the game ends and that player wins.</span>
+</span><span id="Shell-69"><a href="#Shell-69"><span class="linenos"> 69</span></a><span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="Shell-70"><a href="#Shell-70"><span class="linenos"> 70</span></a>
+</span><span id="Shell-71"><a href="#Shell-71"><span class="linenos"> 71</span></a>    <span class="k">def</span> <span class="nf">do_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+</span><span id="Shell-72"><a href="#Shell-72"><span class="linenos"> 72</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Start a new game with one or two players, depending on the user&#39;s input.&quot;&quot;&quot;</span>
+</span><span id="Shell-73"><a href="#Shell-73"><span class="linenos"> 73</span></a>        <span class="n">num_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</span><span id="Shell-74"><a href="#Shell-74"><span class="linenos"> 74</span></a>        <span class="k">if</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Shell-75"><a href="#Shell-75"><span class="linenos"> 75</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter your name: &quot;</span><span class="p">)</span>
+</span><span id="Shell-76"><a href="#Shell-76"><span class="linenos"> 76</span></a>            <span class="n">level</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Select computer intelligence level (dumb, medium or hard): &quot;</span><span class="p">)</span>
+</span><span id="Shell-77"><a href="#Shell-77"><span class="linenos"> 77</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
+</span><span id="Shell-78"><a href="#Shell-78"><span class="linenos"> 78</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+</span><span id="Shell-79"><a href="#Shell-79"><span class="linenos"> 79</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
+</span><span id="Shell-80"><a href="#Shell-80"><span class="linenos"> 80</span></a>
+</span><span id="Shell-81"><a href="#Shell-81"><span class="linenos"> 81</span></a>        <span class="k">elif</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="Shell-82"><a href="#Shell-82"><span class="linenos"> 82</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the first player: &quot;</span><span class="p">)</span>
+</span><span id="Shell-83"><a href="#Shell-83"><span class="linenos"> 83</span></a>            <span class="n">player2_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the second player: &quot;</span><span class="p">)</span>
+</span><span id="Shell-84"><a href="#Shell-84"><span class="linenos"> 84</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">)</span>
+</span><span id="Shell-85"><a href="#Shell-85"><span class="linenos"> 85</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
+</span><span id="Shell-86"><a href="#Shell-86"><span class="linenos"> 86</span></a>
+</span><span id="Shell-87"><a href="#Shell-87"><span class="linenos"> 87</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell-88"><a href="#Shell-88"><span class="linenos"> 88</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;We were not able to start the game, please enter a valid choice using&quot;</span><span class="p">)</span>
+</span><span id="Shell-89"><a href="#Shell-89"><span class="linenos"> 89</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 1&#39; for playing with computer&quot;</span><span class="p">)</span>
+</span><span id="Shell-90"><a href="#Shell-90"><span class="linenos"> 90</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 2&#39; for playing with another player&quot;</span><span class="p">)</span>
+</span><span id="Shell-91"><a href="#Shell-91"><span class="linenos"> 91</span></a>
+</span><span id="Shell-92"><a href="#Shell-92"><span class="linenos"> 92</span></a>    <span class="k">def</span> <span class="nf">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-93"><a href="#Shell-93"><span class="linenos"> 93</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice for the current player.&quot;&quot;&quot;</span>
+</span><span id="Shell-94"><a href="#Shell-94"><span class="linenos"> 94</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell-95"><a href="#Shell-95"><span class="linenos"> 95</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell-96"><a href="#Shell-96"><span class="linenos"> 96</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">):</span>
+</span><span id="Shell-97"><a href="#Shell-97"><span class="linenos"> 97</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span><span id="Shell-98"><a href="#Shell-98"><span class="linenos"> 98</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell-99"><a href="#Shell-99"><span class="linenos"> 99</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+</span><span id="Shell-100"><a href="#Shell-100"><span class="linenos">100</span></a>
+</span><span id="Shell-101"><a href="#Shell-101"><span class="linenos">101</span></a>    <span class="k">def</span> <span class="nf">do_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-102"><a href="#Shell-102"><span class="linenos">102</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass rolling to the other player and do the first roll.&quot;&quot;&quot;</span>
+</span><span id="Shell-103"><a href="#Shell-103"><span class="linenos">103</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell-104"><a href="#Shell-104"><span class="linenos">104</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell-105"><a href="#Shell-105"><span class="linenos">105</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell-106"><a href="#Shell-106"><span class="linenos">106</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
+</span><span id="Shell-107"><a href="#Shell-107"><span class="linenos">107</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="Shell-108"><a href="#Shell-108"><span class="linenos">108</span></a>
-</span><span id="Shell-109"><a href="#Shell-109"><span class="linenos">109</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell-110"><a href="#Shell-110"><span class="linenos">110</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
-</span><span id="Shell-111"><a href="#Shell-111"><span class="linenos">111</span></a>
-</span><span id="Shell-112"><a href="#Shell-112"><span class="linenos">112</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Shell-113"><a href="#Shell-113"><span class="linenos">113</span></a><span class="sd">    def do_start(self, arg):</span>
-</span><span id="Shell-114"><a href="#Shell-114"><span class="linenos">114</span></a><span class="sd">        #Start a new game</span>
-</span><span id="Shell-115"><a href="#Shell-115"><span class="linenos">115</span></a><span class="sd">        if self.game is not None and not self.game.is_over:</span>
-</span><span id="Shell-116"><a href="#Shell-116"><span class="linenos">116</span></a><span class="sd">            confirm = input(&quot;Are you sure you want to start a new game? (Y/N) &quot;)</span>
-</span><span id="Shell-117"><a href="#Shell-117"><span class="linenos">117</span></a><span class="sd">            if confirm.lower() != &#39;y&#39;:</span>
-</span><span id="Shell-118"><a href="#Shell-118"><span class="linenos">118</span></a><span class="sd">                return</span>
-</span><span id="Shell-119"><a href="#Shell-119"><span class="linenos">119</span></a><span class="sd">        try:</span>
-</span><span id="Shell-120"><a href="#Shell-120"><span class="linenos">120</span></a><span class="sd">            num_players = int(arg)</span>
-</span><span id="Shell-121"><a href="#Shell-121"><span class="linenos">121</span></a><span class="sd">            if num_players == 1:</span>
-</span><span id="Shell-122"><a href="#Shell-122"><span class="linenos">122</span></a><span class="sd">                #player1_name = input(&quot;Enter your name: &quot;)</span>
-</span><span id="Shell-123"><a href="#Shell-123"><span class="linenos">123</span></a><span class="sd">                #level = input(&quot;Enter computer intelligence level (dumb, medium or hard): &quot;)</span>
-</span><span id="Shell-124"><a href="#Shell-124"><span class="linenos">124</span></a><span class="sd">                #self.game = Game(Player(player1_name), Player(&quot;Computer&quot;, level=int(level)))</span>
-</span><span id="Shell-125"><a href="#Shell-125"><span class="linenos">125</span></a><span class="sd">                name = input(&quot;Please enter your name: &quot;)</span>
-</span><span id="Shell-126"><a href="#Shell-126"><span class="linenos">126</span></a><span class="sd">                level = input(&quot;Select computer intelligence level (dumb, medium or hard): &quot;)</span>
-</span><span id="Shell-127"><a href="#Shell-127"><span class="linenos">127</span></a><span class="sd">                game =  Game(name, &quot;computer&quot;)</span>
-</span><span id="Shell-128"><a href="#Shell-128"><span class="linenos">128</span></a><span class="sd">                game.computer_playing(level)</span>
+</span><span id="Shell-109"><a href="#Shell-109"><span class="linenos">109</span></a>    <span class="k">def</span> <span class="nf">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-110"><a href="#Shell-110"><span class="linenos">110</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Restart the current game.&quot;&quot;&quot;</span>
+</span><span id="Shell-111"><a href="#Shell-111"><span class="linenos">111</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell-112"><a href="#Shell-112"><span class="linenos">112</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress.Use the &#39;start 1&#39; or &#39;start 2&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell-113"><a href="#Shell-113"><span class="linenos">113</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell-114"><a href="#Shell-114"><span class="linenos">114</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">reset_game</span><span class="p">()</span>
+</span><span id="Shell-115"><a href="#Shell-115"><span class="linenos">115</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game restarted&quot;</span><span class="p">)</span>
+</span><span id="Shell-116"><a href="#Shell-116"><span class="linenos">116</span></a>
+</span><span id="Shell-117"><a href="#Shell-117"><span class="linenos">117</span></a>    <span class="k">def</span> <span class="nf">do_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-118"><a href="#Shell-118"><span class="linenos">118</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the game.&quot;&quot;&quot;</span>
+</span><span id="Shell-119"><a href="#Shell-119"><span class="linenos">119</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thank you for playing Pig Dice Game!&quot;</span><span class="p">)</span>
+</span><span id="Shell-120"><a href="#Shell-120"><span class="linenos">120</span></a>        <span class="k">return</span> <span class="kc">True</span>
+</span><span id="Shell-121"><a href="#Shell-121"><span class="linenos">121</span></a>
+</span><span id="Shell-122"><a href="#Shell-122"><span class="linenos">122</span></a>    <span class="k">def</span> <span class="nf">do_cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-123"><a href="#Shell-123"><span class="linenos">123</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Allow the current player to cheat and reach 50 points in the game.&quot;&quot;&quot;</span>
+</span><span id="Shell-124"><a href="#Shell-124"><span class="linenos">124</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell-125"><a href="#Shell-125"><span class="linenos">125</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell-126"><a href="#Shell-126"><span class="linenos">126</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell-127"><a href="#Shell-127"><span class="linenos">127</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">cheat</span><span class="p">()</span>
+</span><span id="Shell-128"><a href="#Shell-128"><span class="linenos">128</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, congrats, you win, cheater! &quot;</span><span class="p">)</span>
 </span><span id="Shell-129"><a href="#Shell-129"><span class="linenos">129</span></a>
-</span><span id="Shell-130"><a href="#Shell-130"><span class="linenos">130</span></a><span class="sd">            elif num_players == 2:</span>
-</span><span id="Shell-131"><a href="#Shell-131"><span class="linenos">131</span></a><span class="sd">                #player1_name = input(&quot;Enter player 1 name: &quot;)</span>
-</span><span id="Shell-132"><a href="#Shell-132"><span class="linenos">132</span></a><span class="sd">                #player2_name = input(&quot;Enter player 2 name: &quot;)</span>
-</span><span id="Shell-133"><a href="#Shell-133"><span class="linenos">133</span></a><span class="sd">                #self.game = Game(Player(player1_name), Player(player2_name))</span>
-</span><span id="Shell-134"><a href="#Shell-134"><span class="linenos">134</span></a><span class="sd">                name1 = input(&quot;Enter the name of the first player: &quot;)</span>
-</span><span id="Shell-135"><a href="#Shell-135"><span class="linenos">135</span></a><span class="sd">                name2 = input(&quot;Enter the name of the second player: &quot;)</span>
-</span><span id="Shell-136"><a href="#Shell-136"><span class="linenos">136</span></a><span class="sd">                game = Game(name1, name2)</span>
-</span><span id="Shell-137"><a href="#Shell-137"><span class="linenos">137</span></a><span class="sd">                game.human_playing()</span>
-</span><span id="Shell-138"><a href="#Shell-138"><span class="linenos">138</span></a>
-</span><span id="Shell-139"><a href="#Shell-139"><span class="linenos">139</span></a><span class="sd">            else:</span>
-</span><span id="Shell-140"><a href="#Shell-140"><span class="linenos">140</span></a><span class="sd">                raise ValueError</span>
-</span><span id="Shell-141"><a href="#Shell-141"><span class="linenos">141</span></a><span class="sd">            print(&quot;New game started.&quot;)</span>
-</span><span id="Shell-142"><a href="#Shell-142"><span class="linenos">142</span></a><span class="sd">            self.game.show_scores()</span>
-</span><span id="Shell-143"><a href="#Shell-143"><span class="linenos">143</span></a><span class="sd">        except ValueError:</span>
-</span><span id="Shell-144"><a href="#Shell-144"><span class="linenos">144</span></a><span class="sd">            print(&quot;Invalid number of players. Please enter 1 or 2.&quot;)</span>
-</span><span id="Shell-145"><a href="#Shell-145"><span class="linenos">145</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Shell-146"><a href="#Shell-146"><span class="linenos">146</span></a>
-</span><span id="Shell-147"><a href="#Shell-147"><span class="linenos">147</span></a>    <span class="k">def</span> <span class="nf">do_EOF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell-148"><a href="#Shell-148"><span class="linenos">148</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate the shell&quot;&quot;&quot;</span>
-</span><span id="Shell-149"><a href="#Shell-149"><span class="linenos">149</span></a>        <span class="k">return</span> <span class="kc">True</span>
-</span><span id="Shell-150"><a href="#Shell-150"><span class="linenos">150</span></a>
-</span><span id="Shell-151"><a href="#Shell-151"><span class="linenos">151</span></a>    <span class="k">def</span> <span class="nf">emptyline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Shell-152"><a href="#Shell-152"><span class="linenos">152</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Override the method to do nothing, since we don&#39;t want the shell to repeat the last command if the user enters an empty line.&quot;&quot;&quot;</span>
-</span><span id="Shell-153"><a href="#Shell-153"><span class="linenos">153</span></a>        <span class="k">pass</span>
-</span><span id="Shell-154"><a href="#Shell-154"><span class="linenos">154</span></a>
-</span><span id="Shell-155"><a href="#Shell-155"><span class="linenos">155</span></a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-</span><span id="Shell-156"><a href="#Shell-156"><span class="linenos">156</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid command. Type &#39;help&#39; or &#39;?&#39; to see list of available commands.&quot;</span><span class="p">)</span>
+</span><span id="Shell-130"><a href="#Shell-130"><span class="linenos">130</span></a>    <span class="k">def</span> <span class="nf">do_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-131"><a href="#Shell-131"><span class="linenos">131</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the high scores of all completed games.&quot;&quot;&quot;</span>
+</span><span id="Shell-132"><a href="#Shell-132"><span class="linenos">132</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell-133"><a href="#Shell-133"><span class="linenos">133</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No games are played. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell-134"><a href="#Shell-134"><span class="linenos">134</span></a>
+</span><span id="Shell-135"><a href="#Shell-135"><span class="linenos">135</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell-136"><a href="#Shell-136"><span class="linenos">136</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</span><span id="Shell-137"><a href="#Shell-137"><span class="linenos">137</span></a>
+</span><span id="Shell-138"><a href="#Shell-138"><span class="linenos">138</span></a>    <span class="k">def</span> <span class="nf">do_eof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell-139"><a href="#Shell-139"><span class="linenos">139</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate the shell.&quot;&quot;&quot;</span>
+</span><span id="Shell-140"><a href="#Shell-140"><span class="linenos">140</span></a>        <span class="k">return</span> <span class="kc">True</span>
+</span><span id="Shell-141"><a href="#Shell-141"><span class="linenos">141</span></a>
+</span><span id="Shell-142"><a href="#Shell-142"><span class="linenos">142</span></a>    <span class="k">def</span> <span class="nf">emptyline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Shell-143"><a href="#Shell-143"><span class="linenos">143</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Override the method to do nothing.</span>
+</span><span id="Shell-144"><a href="#Shell-144"><span class="linenos">144</span></a>
+</span><span id="Shell-145"><a href="#Shell-145"><span class="linenos">145</span></a><span class="sd">        since we don&#39;t want the shell to repeat the last command if the user enters an empty line.</span>
+</span><span id="Shell-146"><a href="#Shell-146"><span class="linenos">146</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Shell-147"><a href="#Shell-147"><span class="linenos">147</span></a>
+</span><span id="Shell-148"><a href="#Shell-148"><span class="linenos">148</span></a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+</span><span id="Shell-149"><a href="#Shell-149"><span class="linenos">149</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display an error message when the user enters an invalid command.&quot;&quot;&quot;</span>
+</span><span id="Shell-150"><a href="#Shell-150"><span class="linenos">150</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid command. Type &#39;help&#39; or &#39;?&#39; to see list of available commands.&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>A simple framework for writing line-oriented command interpreters.</p>
-
-<p>These are often useful for test harnesses, administrative tools, and
-prototypes that will later be wrapped in a more sophisticated interface.</p>
-
-<p>A Cmd instance or subclass instance is a line-oriented interpreter
-framework.  There is no good reason to instantiate Cmd itself; rather,
-it's useful as a superclass of an interpreter class you define yourself
-in order to inherit Cmd's methods and encapsulate action methods.</p>
+            <div class="docstring"><p>Class Shell.</p>
 </div>
 
 
@@ -443,15 +420,20 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.__init__-11"><a href="#Shell.__init__-11"><span class="linenos">11</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Shell.__init__-12"><a href="#Shell.__init__-12"><span class="linenos">12</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Init game object.&quot;&quot;&quot;</span>
-</span><span id="Shell.__init__-13"><a href="#Shell.__init__-13"><span class="linenos">13</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-</span><span id="Shell.__init__-14"><a href="#Shell.__init__-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="Shell.__init__-15"><a href="#Shell.__init__-15"><span class="linenos">15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">high_score</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.__init__-33"><a href="#Shell.__init__-33"><span class="linenos">33</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Shell.__init__-34"><a href="#Shell.__init__-34"><span class="linenos">34</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a new instance of the Shell class.</span>
+</span><span id="Shell.__init__-35"><a href="#Shell.__init__-35"><span class="linenos">35</span></a>
+</span><span id="Shell.__init__-36"><a href="#Shell.__init__-36"><span class="linenos">36</span></a><span class="sd">        Create a Game object and a HighScore object.</span>
+</span><span id="Shell.__init__-37"><a href="#Shell.__init__-37"><span class="linenos">37</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Shell.__init__-38"><a href="#Shell.__init__-38"><span class="linenos">38</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span><span id="Shell.__init__-39"><a href="#Shell.__init__-39"><span class="linenos">39</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Shell.__init__-40"><a href="#Shell.__init__-40"><span class="linenos">40</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">high_score</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Init game object.</p>
+            <div class="docstring"><p>Initialize a new instance of the Shell class.</p>
+
+<p>Create a Game object and a HighScore object.</p>
 </div>
 
 
@@ -467,22 +449,22 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.do_help"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_help-17"><a href="#Shell.do_help-17"><span class="linenos">17</span></a>    <span class="k">def</span> <span class="nf">do_help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell.do_help-18"><a href="#Shell.do_help-18"><span class="linenos">18</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the available commands&quot;&quot;&quot;</span>
-</span><span id="Shell.do_help-19"><a href="#Shell.do_help-19"><span class="linenos">19</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available commands:&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-20"><a href="#Shell.do_help-20"><span class="linenos">20</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;help        - Display this help message&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-21"><a href="#Shell.do_help-21"><span class="linenos">21</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rules       - Display the rules of the game&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-22"><a href="#Shell.do_help-22"><span class="linenos">22</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start [1|2] - Start a new game against the computer or with two players&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-23"><a href="#Shell.do_help-23"><span class="linenos">23</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;roll        - Roll the dice&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-24"><a href="#Shell.do_help-24"><span class="linenos">24</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pass        - Pass rolling to the other player&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-25"><a href="#Shell.do_help-25"><span class="linenos">25</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;restart     - Restart the current game&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-26"><a href="#Shell.do_help-26"><span class="linenos">26</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit        - Exit the current game&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-27"><a href="#Shell.do_help-27"><span class="linenos">27</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cheat       - Cheat and reach 100 points in the game&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_help-28"><a href="#Shell.do_help-28"><span class="linenos">28</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;score   - Display the high scores&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_help-42"><a href="#Shell.do_help-42"><span class="linenos">42</span></a>    <span class="k">def</span> <span class="nf">do_help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_help-43"><a href="#Shell.do_help-43"><span class="linenos">43</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the available commands.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_help-44"><a href="#Shell.do_help-44"><span class="linenos">44</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available commands:&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-45"><a href="#Shell.do_help-45"><span class="linenos">45</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;help        - Display this help message&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-46"><a href="#Shell.do_help-46"><span class="linenos">46</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rules       - Display the rules of the game&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-47"><a href="#Shell.do_help-47"><span class="linenos">47</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;start [1|2] - Start a new game against the computer or with two players&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-48"><a href="#Shell.do_help-48"><span class="linenos">48</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;roll        - Roll the dice&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-49"><a href="#Shell.do_help-49"><span class="linenos">49</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pass        - Pass rolling to the other player&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-50"><a href="#Shell.do_help-50"><span class="linenos">50</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;restart     - Restart the current game&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-51"><a href="#Shell.do_help-51"><span class="linenos">51</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit        - Exit the current game&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-52"><a href="#Shell.do_help-52"><span class="linenos">52</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cheat       - Cheat and reach 100 points in the game&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_help-53"><a href="#Shell.do_help-53"><span class="linenos">53</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;score   - Display the high scores&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Display the available commands</p>
+            <div class="docstring"><p>Display the available commands.</p>
 </div>
 
 
@@ -498,25 +480,25 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.do_rules"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_rules-30"><a href="#Shell.do_rules-30"><span class="linenos">30</span></a>    <span class="k">def</span> <span class="nf">do_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell.do_rules-31"><a href="#Shell.do_rules-31"><span class="linenos">31</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the rules of the game&quot;&quot;&quot;</span>
-</span><span id="Shell.do_rules-32"><a href="#Shell.do_rules-32"><span class="linenos">32</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-</span><span id="Shell.do_rules-33"><a href="#Shell.do_rules-33"><span class="linenos">33</span></a><span class="s2">        Pig Dice is a game for two players, in which the players take turns rolling a single die.</span>
-</span><span id="Shell.do_rules-34"><a href="#Shell.do_rules-34"><span class="linenos">34</span></a><span class="s2">        The goal of the game is to reach 100 points before the other player does.</span>
-</span><span id="Shell.do_rules-35"><a href="#Shell.do_rules-35"><span class="linenos">35</span></a>
-</span><span id="Shell.do_rules-36"><a href="#Shell.do_rules-36"><span class="linenos">36</span></a><span class="s2">        On each turn, the player rolls the die as many times as they want, accumulating points for each roll.</span>
-</span><span id="Shell.do_rules-37"><a href="#Shell.do_rules-37"><span class="linenos">37</span></a><span class="s2">        However, if the player rolls a 1, they lose all the points they have accumulated on that turn, and the turn ends.</span>
-</span><span id="Shell.do_rules-38"><a href="#Shell.do_rules-38"><span class="linenos">38</span></a><span class="s2">        If the player rolls a 6, they lose all the points they have accumulated in the game so far, and the turn ends.</span>
-</span><span id="Shell.do_rules-39"><a href="#Shell.do_rules-39"><span class="linenos">39</span></a>
-</span><span id="Shell.do_rules-40"><a href="#Shell.do_rules-40"><span class="linenos">40</span></a><span class="s2">        The player can choose to end their turn at any time and add their accumulated points to their total score.</span>
-</span><span id="Shell.do_rules-41"><a href="#Shell.do_rules-41"><span class="linenos">41</span></a><span class="s2">        The turn then passes to the other player.</span>
-</span><span id="Shell.do_rules-42"><a href="#Shell.do_rules-42"><span class="linenos">42</span></a>
-</span><span id="Shell.do_rules-43"><a href="#Shell.do_rules-43"><span class="linenos">43</span></a><span class="s2">        If a player reaches 100 points, the game ends and that player wins.</span>
-</span><span id="Shell.do_rules-44"><a href="#Shell.do_rules-44"><span class="linenos">44</span></a><span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_rules-55"><a href="#Shell.do_rules-55"><span class="linenos">55</span></a>    <span class="k">def</span> <span class="nf">do_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_rules-56"><a href="#Shell.do_rules-56"><span class="linenos">56</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the rules of the game.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_rules-57"><a href="#Shell.do_rules-57"><span class="linenos">57</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="Shell.do_rules-58"><a href="#Shell.do_rules-58"><span class="linenos">58</span></a><span class="s2">        Pig Dice is a game for two players, in which the players take turns rolling a single die.</span>
+</span><span id="Shell.do_rules-59"><a href="#Shell.do_rules-59"><span class="linenos">59</span></a><span class="s2">        The goal of the game is to reach 100 points before the other player does.</span>
+</span><span id="Shell.do_rules-60"><a href="#Shell.do_rules-60"><span class="linenos">60</span></a>
+</span><span id="Shell.do_rules-61"><a href="#Shell.do_rules-61"><span class="linenos">61</span></a><span class="s2">        On each turn, the player rolls the die as many times as they want, accumulating points for each roll.</span>
+</span><span id="Shell.do_rules-62"><a href="#Shell.do_rules-62"><span class="linenos">62</span></a><span class="s2">        However, if the player rolls a 1, they lose all the points they have accumulated on that turn, and the turn ends.</span>
+</span><span id="Shell.do_rules-63"><a href="#Shell.do_rules-63"><span class="linenos">63</span></a><span class="s2">        If the player rolls a 6, they lose all the points they have accumulated in the game so far, and the turn ends.</span>
+</span><span id="Shell.do_rules-64"><a href="#Shell.do_rules-64"><span class="linenos">64</span></a>
+</span><span id="Shell.do_rules-65"><a href="#Shell.do_rules-65"><span class="linenos">65</span></a><span class="s2">        The player can choose to end their turn at any time and add their accumulated points to their total score.</span>
+</span><span id="Shell.do_rules-66"><a href="#Shell.do_rules-66"><span class="linenos">66</span></a><span class="s2">        The turn then passes to the other player.</span>
+</span><span id="Shell.do_rules-67"><a href="#Shell.do_rules-67"><span class="linenos">67</span></a>
+</span><span id="Shell.do_rules-68"><a href="#Shell.do_rules-68"><span class="linenos">68</span></a><span class="s2">        If a player reaches 50 points, the game ends and that player wins.</span>
+</span><span id="Shell.do_rules-69"><a href="#Shell.do_rules-69"><span class="linenos">69</span></a><span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Display the rules of the game</p>
+            <div class="docstring"><p>Display the rules of the game.</p>
 </div>
 
 
@@ -532,31 +514,30 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.do_start"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_start-46"><a href="#Shell.do_start-46"><span class="linenos">46</span></a>    <span class="k">def</span> <span class="nf">do_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-</span><span id="Shell.do_start-47"><a href="#Shell.do_start-47"><span class="linenos">47</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Start a new game&quot;&quot;&quot;</span>
-</span><span id="Shell.do_start-48"><a href="#Shell.do_start-48"><span class="linenos">48</span></a>
-</span><span id="Shell.do_start-49"><a href="#Shell.do_start-49"><span class="linenos">49</span></a>        <span class="n">num_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
-</span><span id="Shell.do_start-50"><a href="#Shell.do_start-50"><span class="linenos">50</span></a>        <span class="k">if</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Shell.do_start-51"><a href="#Shell.do_start-51"><span class="linenos">51</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter your name: &quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-52"><a href="#Shell.do_start-52"><span class="linenos">52</span></a>            <span class="n">level</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Select computer intelligence level (dumb, medium or hard): &quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-53"><a href="#Shell.do_start-53"><span class="linenos">53</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-54"><a href="#Shell.do_start-54"><span class="linenos">54</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-</span><span id="Shell.do_start-55"><a href="#Shell.do_start-55"><span class="linenos">55</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-56"><a href="#Shell.do_start-56"><span class="linenos">56</span></a>
-</span><span id="Shell.do_start-57"><a href="#Shell.do_start-57"><span class="linenos">57</span></a>        <span class="k">elif</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-</span><span id="Shell.do_start-58"><a href="#Shell.do_start-58"><span class="linenos">58</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the first player: &quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-59"><a href="#Shell.do_start-59"><span class="linenos">59</span></a>            <span class="n">player2_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the second player: &quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-60"><a href="#Shell.do_start-60"><span class="linenos">60</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">)</span>
-</span><span id="Shell.do_start-61"><a href="#Shell.do_start-61"><span class="linenos">61</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-62"><a href="#Shell.do_start-62"><span class="linenos">62</span></a>
-</span><span id="Shell.do_start-63"><a href="#Shell.do_start-63"><span class="linenos">63</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell.do_start-64"><a href="#Shell.do_start-64"><span class="linenos">64</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;We were not able to start the game, please enter a valid choice using&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-65"><a href="#Shell.do_start-65"><span class="linenos">65</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 1&#39; for playing with computer&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_start-66"><a href="#Shell.do_start-66"><span class="linenos">66</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 2&#39; for playing with another player&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_start-71"><a href="#Shell.do_start-71"><span class="linenos">71</span></a>    <span class="k">def</span> <span class="nf">do_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+</span><span id="Shell.do_start-72"><a href="#Shell.do_start-72"><span class="linenos">72</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Start a new game with one or two players, depending on the user&#39;s input.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_start-73"><a href="#Shell.do_start-73"><span class="linenos">73</span></a>        <span class="n">num_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</span><span id="Shell.do_start-74"><a href="#Shell.do_start-74"><span class="linenos">74</span></a>        <span class="k">if</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Shell.do_start-75"><a href="#Shell.do_start-75"><span class="linenos">75</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter your name: &quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-76"><a href="#Shell.do_start-76"><span class="linenos">76</span></a>            <span class="n">level</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Select computer intelligence level (dumb, medium or hard): &quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-77"><a href="#Shell.do_start-77"><span class="linenos">77</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-78"><a href="#Shell.do_start-78"><span class="linenos">78</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+</span><span id="Shell.do_start-79"><a href="#Shell.do_start-79"><span class="linenos">79</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-80"><a href="#Shell.do_start-80"><span class="linenos">80</span></a>
+</span><span id="Shell.do_start-81"><a href="#Shell.do_start-81"><span class="linenos">81</span></a>        <span class="k">elif</span> <span class="n">num_players</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="Shell.do_start-82"><a href="#Shell.do_start-82"><span class="linenos">82</span></a>            <span class="n">player1_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the first player: &quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-83"><a href="#Shell.do_start-83"><span class="linenos">83</span></a>            <span class="n">player2_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the second player: &quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-84"><a href="#Shell.do_start-84"><span class="linenos">84</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">)</span>
+</span><span id="Shell.do_start-85"><a href="#Shell.do_start-85"><span class="linenos">85</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game started.&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-86"><a href="#Shell.do_start-86"><span class="linenos">86</span></a>
+</span><span id="Shell.do_start-87"><a href="#Shell.do_start-87"><span class="linenos">87</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell.do_start-88"><a href="#Shell.do_start-88"><span class="linenos">88</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;We were not able to start the game, please enter a valid choice using&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-89"><a href="#Shell.do_start-89"><span class="linenos">89</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 1&#39; for playing with computer&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_start-90"><a href="#Shell.do_start-90"><span class="linenos">90</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;start 2&#39; for playing with another player&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Start a new game</p>
+            <div class="docstring"><p>Start a new game with one or two players, depending on the user's input.</p>
 </div>
 
 
@@ -572,18 +553,18 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.do_roll"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_roll-68"><a href="#Shell.do_roll-68"><span class="linenos">68</span></a>    <span class="k">def</span> <span class="nf">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell.do_roll-69"><a href="#Shell.do_roll-69"><span class="linenos">69</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice&quot;&quot;&quot;</span>
-</span><span id="Shell.do_roll-70"><a href="#Shell.do_roll-70"><span class="linenos">70</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell.do_roll-71"><a href="#Shell.do_roll-71"><span class="linenos">71</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_roll-72"><a href="#Shell.do_roll-72"><span class="linenos">72</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">):</span>
-</span><span id="Shell.do_roll-73"><a href="#Shell.do_roll-73"><span class="linenos">73</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</span><span id="Shell.do_roll-74"><a href="#Shell.do_roll-74"><span class="linenos">74</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell.do_roll-75"><a href="#Shell.do_roll-75"><span class="linenos">75</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_roll-92"><a href="#Shell.do_roll-92"><span class="linenos">92</span></a>    <span class="k">def</span> <span class="nf">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_roll-93"><a href="#Shell.do_roll-93"><span class="linenos">93</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice for the current player.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_roll-94"><a href="#Shell.do_roll-94"><span class="linenos">94</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell.do_roll-95"><a href="#Shell.do_roll-95"><span class="linenos">95</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_roll-96"><a href="#Shell.do_roll-96"><span class="linenos">96</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">):</span>
+</span><span id="Shell.do_roll-97"><a href="#Shell.do_roll-97"><span class="linenos">97</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span><span id="Shell.do_roll-98"><a href="#Shell.do_roll-98"><span class="linenos">98</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell.do_roll-99"><a href="#Shell.do_roll-99"><span class="linenos">99</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Roll the dice</p>
+            <div class="docstring"><p>Roll the dice for the current player.</p>
 </div>
 
 
@@ -599,17 +580,17 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.do_pass"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_pass-77"><a href="#Shell.do_pass-77"><span class="linenos">77</span></a>    <span class="k">def</span> <span class="nf">do_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell.do_pass-78"><a href="#Shell.do_pass-78"><span class="linenos">78</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass rolling to the other player&quot;&quot;&quot;</span>
-</span><span id="Shell.do_pass-79"><a href="#Shell.do_pass-79"><span class="linenos">79</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell.do_pass-80"><a href="#Shell.do_pass-80"><span class="linenos">80</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_pass-81"><a href="#Shell.do_pass-81"><span class="linenos">81</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell.do_pass-82"><a href="#Shell.do_pass-82"><span class="linenos">82</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
-</span><span id="Shell.do_pass-83"><a href="#Shell.do_pass-83"><span class="linenos">83</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_pass-101"><a href="#Shell.do_pass-101"><span class="linenos">101</span></a>    <span class="k">def</span> <span class="nf">do_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_pass-102"><a href="#Shell.do_pass-102"><span class="linenos">102</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass rolling to the other player and do the first roll.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_pass-103"><a href="#Shell.do_pass-103"><span class="linenos">103</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell.do_pass-104"><a href="#Shell.do_pass-104"><span class="linenos">104</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_pass-105"><a href="#Shell.do_pass-105"><span class="linenos">105</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell.do_pass-106"><a href="#Shell.do_pass-106"><span class="linenos">106</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
+</span><span id="Shell.do_pass-107"><a href="#Shell.do_pass-107"><span class="linenos">107</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">do_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Pass rolling to the other player</p>
+            <div class="docstring"><p>Pass rolling to the other player and do the first roll.</p>
 </div>
 
 
@@ -619,23 +600,23 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">do_restart</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">arg</span></span><span class="return-annotation">):</span></span>
+        <span class="name">do_restart</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">_</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="Shell.do_restart-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Shell.do_restart"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_restart-85"><a href="#Shell.do_restart-85"><span class="linenos">85</span></a>    <span class="k">def</span> <span class="nf">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-</span><span id="Shell.do_restart-86"><a href="#Shell.do_restart-86"><span class="linenos">86</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Restart the current game&quot;&quot;&quot;</span>
-</span><span id="Shell.do_restart-87"><a href="#Shell.do_restart-87"><span class="linenos">87</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell.do_restart-88"><a href="#Shell.do_restart-88"><span class="linenos">88</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_restart-89"><a href="#Shell.do_restart-89"><span class="linenos">89</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell.do_restart-90"><a href="#Shell.do_restart-90"><span class="linenos">90</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">reset_game</span><span class="p">()</span>
-</span><span id="Shell.do_restart-91"><a href="#Shell.do_restart-91"><span class="linenos">91</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game restarted&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_restart-109"><a href="#Shell.do_restart-109"><span class="linenos">109</span></a>    <span class="k">def</span> <span class="nf">do_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_restart-110"><a href="#Shell.do_restart-110"><span class="linenos">110</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Restart the current game.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_restart-111"><a href="#Shell.do_restart-111"><span class="linenos">111</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell.do_restart-112"><a href="#Shell.do_restart-112"><span class="linenos">112</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress.Use the &#39;start 1&#39; or &#39;start 2&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_restart-113"><a href="#Shell.do_restart-113"><span class="linenos">113</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell.do_restart-114"><a href="#Shell.do_restart-114"><span class="linenos">114</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">reset_game</span><span class="p">()</span>
+</span><span id="Shell.do_restart-115"><a href="#Shell.do_restart-115"><span class="linenos">115</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New game restarted&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Restart the current game</p>
+            <div class="docstring"><p>Restart the current game.</p>
 </div>
 
 
@@ -651,14 +632,14 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.do_exit"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_exit-93"><a href="#Shell.do_exit-93"><span class="linenos">93</span></a>    <span class="k">def</span> <span class="nf">do_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell.do_exit-94"><a href="#Shell.do_exit-94"><span class="linenos">94</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the game&quot;&quot;&quot;</span>
-</span><span id="Shell.do_exit-95"><a href="#Shell.do_exit-95"><span class="linenos">95</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thank you for playing Pig Dice Game!&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_exit-96"><a href="#Shell.do_exit-96"><span class="linenos">96</span></a>        <span class="k">return</span> <span class="kc">True</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_exit-117"><a href="#Shell.do_exit-117"><span class="linenos">117</span></a>    <span class="k">def</span> <span class="nf">do_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_exit-118"><a href="#Shell.do_exit-118"><span class="linenos">118</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the game.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_exit-119"><a href="#Shell.do_exit-119"><span class="linenos">119</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thank you for playing Pig Dice Game!&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_exit-120"><a href="#Shell.do_exit-120"><span class="linenos">120</span></a>        <span class="k">return</span> <span class="kc">True</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Exit the game</p>
+            <div class="docstring"><p>Exit the game.</p>
 </div>
 
 
@@ -674,16 +655,19 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.do_cheat"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_cheat-98"><a href="#Shell.do_cheat-98"><span class="linenos"> 98</span></a>    <span class="k">def</span> <span class="nf">do_cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell.do_cheat-99"><a href="#Shell.do_cheat-99"><span class="linenos"> 99</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell.do_cheat-100"><a href="#Shell.do_cheat-100"><span class="linenos">100</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_cheat-101"><a href="#Shell.do_cheat-101"><span class="linenos">101</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell.do_cheat-102"><a href="#Shell.do_cheat-102"><span class="linenos">102</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">cheat</span><span class="p">()</span>
-</span><span id="Shell.do_cheat-103"><a href="#Shell.do_cheat-103"><span class="linenos">103</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, congrats, you win, cheater! &quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_cheat-122"><a href="#Shell.do_cheat-122"><span class="linenos">122</span></a>    <span class="k">def</span> <span class="nf">do_cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_cheat-123"><a href="#Shell.do_cheat-123"><span class="linenos">123</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Allow the current player to cheat and reach 50 points in the game.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_cheat-124"><a href="#Shell.do_cheat-124"><span class="linenos">124</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell.do_cheat-125"><a href="#Shell.do_cheat-125"><span class="linenos">125</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No game in progress. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_cheat-126"><a href="#Shell.do_cheat-126"><span class="linenos">126</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell.do_cheat-127"><a href="#Shell.do_cheat-127"><span class="linenos">127</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">cheat</span><span class="p">()</span>
+</span><span id="Shell.do_cheat-128"><a href="#Shell.do_cheat-128"><span class="linenos">128</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, congrats, you win, cheater! &quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Allow the current player to cheat and reach 50 points in the game.</p>
+</div>
+
 
                             </div>
                             <div id="Shell.do_score" class="classattr">
@@ -697,36 +681,39 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.do_score"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_score-105"><a href="#Shell.do_score-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">do_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell.do_score-106"><a href="#Shell.do_score-106"><span class="linenos">106</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Shell.do_score-107"><a href="#Shell.do_score-107"><span class="linenos">107</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No games are played. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
-</span><span id="Shell.do_score-108"><a href="#Shell.do_score-108"><span class="linenos">108</span></a>
-</span><span id="Shell.do_score-109"><a href="#Shell.do_score-109"><span class="linenos">109</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Shell.do_score-110"><a href="#Shell.do_score-110"><span class="linenos">110</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_score-130"><a href="#Shell.do_score-130"><span class="linenos">130</span></a>    <span class="k">def</span> <span class="nf">do_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_score-131"><a href="#Shell.do_score-131"><span class="linenos">131</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the high scores of all completed games.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_score-132"><a href="#Shell.do_score-132"><span class="linenos">132</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Shell.do_score-133"><a href="#Shell.do_score-133"><span class="linenos">133</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No games are played. Use the &#39;start&#39; command to start a new game.&quot;</span><span class="p">)</span>
+</span><span id="Shell.do_score-134"><a href="#Shell.do_score-134"><span class="linenos">134</span></a>
+</span><span id="Shell.do_score-135"><a href="#Shell.do_score-135"><span class="linenos">135</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Shell.do_score-136"><a href="#Shell.do_score-136"><span class="linenos">136</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Display the high scores of all completed games.</p>
+</div>
+
 
                             </div>
-                            <div id="Shell.do_EOF" class="classattr">
-                                        <input id="Shell.do_EOF-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="Shell.do_eof" class="classattr">
+                                        <input id="Shell.do_eof-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">do_EOF</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">_</span></span><span class="return-annotation">):</span></span>
+        <span class="name">do_eof</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">_</span></span><span class="return-annotation">):</span></span>
 
-                <label class="view-source-button" for="Shell.do_EOF-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="Shell.do_eof-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#Shell.do_EOF"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_EOF-147"><a href="#Shell.do_EOF-147"><span class="linenos">147</span></a>    <span class="k">def</span> <span class="nf">do_EOF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
-</span><span id="Shell.do_EOF-148"><a href="#Shell.do_EOF-148"><span class="linenos">148</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate the shell&quot;&quot;&quot;</span>
-</span><span id="Shell.do_EOF-149"><a href="#Shell.do_EOF-149"><span class="linenos">149</span></a>        <span class="k">return</span> <span class="kc">True</span>
+    <a class="headerlink" href="#Shell.do_eof"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.do_eof-138"><a href="#Shell.do_eof-138"><span class="linenos">138</span></a>    <span class="k">def</span> <span class="nf">do_eof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+</span><span id="Shell.do_eof-139"><a href="#Shell.do_eof-139"><span class="linenos">139</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate the shell.&quot;&quot;&quot;</span>
+</span><span id="Shell.do_eof-140"><a href="#Shell.do_eof-140"><span class="linenos">140</span></a>        <span class="k">return</span> <span class="kc">True</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Terminate the shell</p>
+            <div class="docstring"><p>Terminate the shell.</p>
 </div>
 
 
@@ -742,13 +729,17 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.emptyline"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.emptyline-151"><a href="#Shell.emptyline-151"><span class="linenos">151</span></a>    <span class="k">def</span> <span class="nf">emptyline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Shell.emptyline-152"><a href="#Shell.emptyline-152"><span class="linenos">152</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Override the method to do nothing, since we don&#39;t want the shell to repeat the last command if the user enters an empty line.&quot;&quot;&quot;</span>
-</span><span id="Shell.emptyline-153"><a href="#Shell.emptyline-153"><span class="linenos">153</span></a>        <span class="k">pass</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.emptyline-142"><a href="#Shell.emptyline-142"><span class="linenos">142</span></a>    <span class="k">def</span> <span class="nf">emptyline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Shell.emptyline-143"><a href="#Shell.emptyline-143"><span class="linenos">143</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Override the method to do nothing.</span>
+</span><span id="Shell.emptyline-144"><a href="#Shell.emptyline-144"><span class="linenos">144</span></a>
+</span><span id="Shell.emptyline-145"><a href="#Shell.emptyline-145"><span class="linenos">145</span></a><span class="sd">        since we don&#39;t want the shell to repeat the last command if the user enters an empty line.</span>
+</span><span id="Shell.emptyline-146"><a href="#Shell.emptyline-146"><span class="linenos">146</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Override the method to do nothing, since we don't want the shell to repeat the last command if the user enters an empty line.</p>
+            <div class="docstring"><p>Override the method to do nothing.</p>
+
+<p>since we don't want the shell to repeat the last command if the user enters an empty line.</p>
 </div>
 
 
@@ -764,15 +755,13 @@ in order to inherit Cmd's methods and encapsulate action methods.</p>
 
     </div>
     <a class="headerlink" href="#Shell.default"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.default-155"><a href="#Shell.default-155"><span class="linenos">155</span></a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-</span><span id="Shell.default-156"><a href="#Shell.default-156"><span class="linenos">156</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid command. Type &#39;help&#39; or &#39;?&#39; to see list of available commands.&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Shell.default-148"><a href="#Shell.default-148"><span class="linenos">148</span></a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+</span><span id="Shell.default-149"><a href="#Shell.default-149"><span class="linenos">149</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Display an error message when the user enters an invalid command.&quot;&quot;&quot;</span>
+</span><span id="Shell.default-150"><a href="#Shell.default-150"><span class="linenos">150</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid command. Type &#39;help&#39; or &#39;?&#39; to see list of available commands.&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Called on an input line when the command prefix is not recognized.</p>
-
-<p>If this method is not overridden, it prints an error message and
-returns.</p>
+            <div class="docstring"><p>Display an error message when the user enters an invalid command.</p>
 </div>
 
 

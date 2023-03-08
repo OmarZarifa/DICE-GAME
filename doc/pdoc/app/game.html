@@ -99,135 +99,162 @@
                     <h1 class="modulename">
 app<wbr>.game    </h1>
 
-                
+                        <div class="docstring"><p>Represent the pig dice game.</p>
+</div>
+
                         <input id="mod-game-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-game-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="kn">from</span> <span class="nn">app.intelligence</span> <span class="kn">import</span> <span class="n">Intelligence</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="kn">from</span> <span class="nn">app.dice</span> <span class="kn">import</span> <span class="n">Dice</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="kn">from</span> <span class="nn">app.player</span> <span class="kn">import</span> <span class="n">Player</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="kn">from</span> <span class="nn">app.highScore</span> <span class="kn">import</span> <span class="n">HighScore</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a>
-</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="k">class</span> <span class="nc">Game</span><span class="p">:</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;Represent the pig dice game.&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="kn">from</span> <span class="nn">app.intelligence</span> <span class="kn">import</span> <span class="n">Intelligence</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="kn">from</span> <span class="nn">app.dice</span> <span class="kn">import</span> <span class="n">Dice</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">from</span> <span class="nn">app.player</span> <span class="kn">import</span> <span class="n">Player</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">from</span> <span class="nn">app.highscore</span> <span class="kn">import</span> <span class="n">HighScore</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>
 </span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a>    <span class="n">WINNING_SCORE</span> <span class="o">=</span> <span class="mi">50</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a>
-</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">):</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player1_name</span><span class="p">)</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player2_name</span><span class="p">)</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
-</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>    <span class="k">def</span> <span class="nf">switch_players</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>
-</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>    <span class="k">def</span> <span class="nf">roll_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_computer</span><span class="p">():</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="k">class</span> <span class="nc">Game</span><span class="p">:</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Class Game.&quot;&quot;&quot;</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>    <span class="n">WINNING_SCORE</span> <span class="o">=</span> <span class="mi">50</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">):</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the game object with following attributes.&quot;&quot;&quot;</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player1_name</span><span class="p">)</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player2_name</span><span class="p">)</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>
-</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>
-</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="k">def</span> <span class="nf">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>        <span class="n">intelligence</span> <span class="o">=</span> <span class="n">Intelligence</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>        <span class="c1"># establish a while loop for the computer&#39;s turn</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>        <span class="k">while</span> <span class="n">again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value1</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>                <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>                <span class="n">roll_or_hold</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>                <span class="k">if</span> <span class="n">roll_or_hold</span> <span class="o">==</span> <span class="s1">&#39;roll&#39;</span><span class="p">:</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>                <span class="k">else</span><span class="p">:</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>    <span class="k">def</span> <span class="nf">switch_players</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Switche the current player and the other player.&quot;&quot;&quot;</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>    <span class="k">def</span> <span class="nf">roll_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice and updates the turn score.&quot;&quot;&quot;</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_computer</span><span class="p">():</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>    <span class="k">def</span> <span class="nf">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice for the computer player.&quot;&quot;&quot;</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>        <span class="n">intelligence</span> <span class="o">=</span> <span class="n">Intelligence</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>        <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="c1"># establish a while loop for the computer&#39;s turn</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="k">while</span> <span class="n">again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value1</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>                <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>    <span class="k">def</span> <span class="nf">is_computer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;computer&quot;</span><span class="p">:</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>            <span class="k">return</span> <span class="kc">True</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>    <span class="k">def</span> <span class="nf">pass_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">)</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">:</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Congrats </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, you are the winner! </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>    <span class="k">def</span> <span class="nf">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_player_score</span><span class="p">):</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;Determines whether the game is over.&#39;&#39;&#39;</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;Returns True if player has 100 or more, otherwise it returns False.&#39;&#39;&#39;</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="k">if</span> <span class="p">(</span><span class="n">current_player_score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">):</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>            <span class="k">return</span> <span class="kc">True</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>    <span class="k">def</span> <span class="nf">reset_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p1</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p2</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>                <span class="n">roll_or_hold</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>                <span class="k">if</span> <span class="n">roll_or_hold</span> <span class="o">==</span> <span class="s1">&#39;roll&#39;</span><span class="p">:</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>                <span class="k">else</span><span class="p">:</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>    <span class="k">def</span> <span class="nf">is_computer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the current player is a computer player.&quot;&quot;&quot;</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="k">def</span> <span class="nf">pass_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass the turn to the other player.&quot;&quot;&quot;</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">)</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>        <span class="c1"># Check if the current player&#39;s total score reaches the winning score</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">:</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>            <span class="c1"># Set the winner</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>            <span class="c1"># Update the high score list</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Congrats </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, you are the winner! </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>    <span class="k">def</span> <span class="nf">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_player_score</span><span class="p">):</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine whether the game is over.</span>
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>    <span class="k">def</span> <span class="nf">cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>    <span class="k">def</span> <span class="nf">set_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>    <span class="k">def</span> <span class="nf">set_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">def</span> <span class="nf">get_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="k">def</span> <span class="nf">get_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">        Return True if player has 50 or more, otherwise return False.</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">current_player_score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">)</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="k">def</span> <span class="nf">reset_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the game by resetting all the attributes to their default values.&quot;&quot;&quot;</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="k">def</span> <span class="nf">cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the score of the current player to WINNING_SCORE (50).&quot;&quot;&quot;</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span>
 </span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>    <span class="k">def</span> <span class="nf">set_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>        <span class="c1"># declare the current player as the winner</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
 </span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>    <span class="k">def</span> <span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>        <span class="c1"># add the current player&#39;s score and name to the high score table</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>    <span class="k">def</span> <span class="nf">set_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the current player to the player with the given name.&quot;&quot;&quot;</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>    <span class="k">def</span> <span class="nf">set_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the other player to the player with the given name.&quot;&quot;&quot;</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>    <span class="k">def</span> <span class="nf">get_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the current player.&quot;&quot;&quot;</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>    <span class="k">def</span> <span class="nf">get_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the other player.&quot;&quot;&quot;</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>    <span class="k">def</span> <span class="nf">set_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the game level to the given level.&quot;&quot;&quot;</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>    <span class="k">def</span> <span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the current game level.&quot;&quot;&quot;</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
 </span></pre></div>
 
 
@@ -243,128 +270,153 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game-8"><a href="#Game-8"><span class="linenos">  8</span></a><span class="k">class</span> <span class="nc">Game</span><span class="p">:</span>
-</span><span id="Game-9"><a href="#Game-9"><span class="linenos">  9</span></a>
-</span><span id="Game-10"><a href="#Game-10"><span class="linenos"> 10</span></a>    <span class="n">WINNING_SCORE</span> <span class="o">=</span> <span class="mi">50</span>
-</span><span id="Game-11"><a href="#Game-11"><span class="linenos"> 11</span></a>
-</span><span id="Game-12"><a href="#Game-12"><span class="linenos"> 12</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">):</span>
-</span><span id="Game-13"><a href="#Game-13"><span class="linenos"> 13</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player1_name</span><span class="p">)</span>
-</span><span id="Game-14"><a href="#Game-14"><span class="linenos"> 14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player2_name</span><span class="p">)</span>
-</span><span id="Game-15"><a href="#Game-15"><span class="linenos"> 15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span>
-</span><span id="Game-16"><a href="#Game-16"><span class="linenos"> 16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span>
-</span><span id="Game-17"><a href="#Game-17"><span class="linenos"> 17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="Game-18"><a href="#Game-18"><span class="linenos"> 18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game-19"><a href="#Game-19"><span class="linenos"> 19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="Game-20"><a href="#Game-20"><span class="linenos"> 20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span id="Game-21"><a href="#Game-21"><span class="linenos"> 21</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
-</span><span id="Game-22"><a href="#Game-22"><span class="linenos"> 22</span></a>
-</span><span id="Game-23"><a href="#Game-23"><span class="linenos"> 23</span></a>    <span class="k">def</span> <span class="nf">switch_players</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-24"><a href="#Game-24"><span class="linenos"> 24</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="Game-25"><a href="#Game-25"><span class="linenos"> 25</span></a>
-</span><span id="Game-26"><a href="#Game-26"><span class="linenos"> 26</span></a>    <span class="k">def</span> <span class="nf">roll_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-27"><a href="#Game-27"><span class="linenos"> 27</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_computer</span><span class="p">():</span>
-</span><span id="Game-28"><a href="#Game-28"><span class="linenos"> 28</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game-10"><a href="#Game-10"><span class="linenos"> 10</span></a><span class="k">class</span> <span class="nc">Game</span><span class="p">:</span>
+</span><span id="Game-11"><a href="#Game-11"><span class="linenos"> 11</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Class Game.&quot;&quot;&quot;</span>
+</span><span id="Game-12"><a href="#Game-12"><span class="linenos"> 12</span></a>
+</span><span id="Game-13"><a href="#Game-13"><span class="linenos"> 13</span></a>    <span class="n">WINNING_SCORE</span> <span class="o">=</span> <span class="mi">50</span>
+</span><span id="Game-14"><a href="#Game-14"><span class="linenos"> 14</span></a>
+</span><span id="Game-15"><a href="#Game-15"><span class="linenos"> 15</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">):</span>
+</span><span id="Game-16"><a href="#Game-16"><span class="linenos"> 16</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the game object with following attributes.&quot;&quot;&quot;</span>
+</span><span id="Game-17"><a href="#Game-17"><span class="linenos"> 17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player1_name</span><span class="p">)</span>
+</span><span id="Game-18"><a href="#Game-18"><span class="linenos"> 18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player2_name</span><span class="p">)</span>
+</span><span id="Game-19"><a href="#Game-19"><span class="linenos"> 19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span>
+</span><span id="Game-20"><a href="#Game-20"><span class="linenos"> 20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span>
+</span><span id="Game-21"><a href="#Game-21"><span class="linenos"> 21</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game-22"><a href="#Game-22"><span class="linenos"> 22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game-23"><a href="#Game-23"><span class="linenos"> 23</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game-24"><a href="#Game-24"><span class="linenos"> 24</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="Game-25"><a href="#Game-25"><span class="linenos"> 25</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
+</span><span id="Game-26"><a href="#Game-26"><span class="linenos"> 26</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game-27"><a href="#Game-27"><span class="linenos"> 27</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game-28"><a href="#Game-28"><span class="linenos"> 28</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="Game-29"><a href="#Game-29"><span class="linenos"> 29</span></a>
-</span><span id="Game-30"><a href="#Game-30"><span class="linenos"> 30</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Game-31"><a href="#Game-31"><span class="linenos"> 31</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
-</span><span id="Game-32"><a href="#Game-32"><span class="linenos"> 32</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
-</span><span id="Game-33"><a href="#Game-33"><span class="linenos"> 33</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Game-34"><a href="#Game-34"><span class="linenos"> 34</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game-35"><a href="#Game-35"><span class="linenos"> 35</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game-36"><a href="#Game-36"><span class="linenos"> 36</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
-</span><span id="Game-37"><a href="#Game-37"><span class="linenos"> 37</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
-</span><span id="Game-38"><a href="#Game-38"><span class="linenos"> 38</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="Game-39"><a href="#Game-39"><span class="linenos"> 39</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span>
-</span><span id="Game-40"><a href="#Game-40"><span class="linenos"> 40</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game-41"><a href="#Game-41"><span class="linenos"> 41</span></a>
-</span><span id="Game-42"><a href="#Game-42"><span class="linenos"> 42</span></a>    <span class="k">def</span> <span class="nf">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
-</span><span id="Game-43"><a href="#Game-43"><span class="linenos"> 43</span></a>        <span class="n">intelligence</span> <span class="o">=</span> <span class="n">Intelligence</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-</span><span id="Game-44"><a href="#Game-44"><span class="linenos"> 44</span></a>
-</span><span id="Game-45"><a href="#Game-45"><span class="linenos"> 45</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game-46"><a href="#Game-46"><span class="linenos"> 46</span></a>        <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
-</span><span id="Game-47"><a href="#Game-47"><span class="linenos"> 47</span></a>        <span class="c1"># establish a while loop for the computer&#39;s turn</span>
-</span><span id="Game-48"><a href="#Game-48"><span class="linenos"> 48</span></a>        <span class="k">while</span> <span class="n">again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
-</span><span id="Game-49"><a href="#Game-49"><span class="linenos"> 49</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
-</span><span id="Game-50"><a href="#Game-50"><span class="linenos"> 50</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value1</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
-</span><span id="Game-51"><a href="#Game-51"><span class="linenos"> 51</span></a>
-</span><span id="Game-52"><a href="#Game-52"><span class="linenos"> 52</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Game-53"><a href="#Game-53"><span class="linenos"> 53</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game-54"><a href="#Game-54"><span class="linenos"> 54</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game-55"><a href="#Game-55"><span class="linenos"> 55</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
-</span><span id="Game-56"><a href="#Game-56"><span class="linenos"> 56</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
-</span><span id="Game-57"><a href="#Game-57"><span class="linenos"> 57</span></a>                <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
-</span><span id="Game-58"><a href="#Game-58"><span class="linenos"> 58</span></a>
-</span><span id="Game-59"><a href="#Game-59"><span class="linenos"> 59</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="Game-60"><a href="#Game-60"><span class="linenos"> 60</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span>
-</span><span id="Game-61"><a href="#Game-61"><span class="linenos"> 61</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game-62"><a href="#Game-62"><span class="linenos"> 62</span></a>                <span class="n">roll_or_hold</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="Game-63"><a href="#Game-63"><span class="linenos"> 63</span></a>                <span class="k">if</span> <span class="n">roll_or_hold</span> <span class="o">==</span> <span class="s1">&#39;roll&#39;</span><span class="p">:</span>
-</span><span id="Game-64"><a href="#Game-64"><span class="linenos"> 64</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
-</span><span id="Game-65"><a href="#Game-65"><span class="linenos"> 65</span></a>                <span class="k">else</span><span class="p">:</span>
-</span><span id="Game-66"><a href="#Game-66"><span class="linenos"> 66</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
-</span><span id="Game-67"><a href="#Game-67"><span class="linenos"> 67</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
+</span><span id="Game-30"><a href="#Game-30"><span class="linenos"> 30</span></a>    <span class="k">def</span> <span class="nf">switch_players</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-31"><a href="#Game-31"><span class="linenos"> 31</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Switche the current player and the other player.&quot;&quot;&quot;</span>
+</span><span id="Game-32"><a href="#Game-32"><span class="linenos"> 32</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+</span><span id="Game-33"><a href="#Game-33"><span class="linenos"> 33</span></a>
+</span><span id="Game-34"><a href="#Game-34"><span class="linenos"> 34</span></a>    <span class="k">def</span> <span class="nf">roll_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-35"><a href="#Game-35"><span class="linenos"> 35</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice and updates the turn score.&quot;&quot;&quot;</span>
+</span><span id="Game-36"><a href="#Game-36"><span class="linenos"> 36</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_computer</span><span class="p">():</span>
+</span><span id="Game-37"><a href="#Game-37"><span class="linenos"> 37</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
+</span><span id="Game-38"><a href="#Game-38"><span class="linenos"> 38</span></a>
+</span><span id="Game-39"><a href="#Game-39"><span class="linenos"> 39</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Game-40"><a href="#Game-40"><span class="linenos"> 40</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
+</span><span id="Game-41"><a href="#Game-41"><span class="linenos"> 41</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+</span><span id="Game-42"><a href="#Game-42"><span class="linenos"> 42</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Game-43"><a href="#Game-43"><span class="linenos"> 43</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game-44"><a href="#Game-44"><span class="linenos"> 44</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game-45"><a href="#Game-45"><span class="linenos"> 45</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+</span><span id="Game-46"><a href="#Game-46"><span class="linenos"> 46</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+</span><span id="Game-47"><a href="#Game-47"><span class="linenos"> 47</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="Game-48"><a href="#Game-48"><span class="linenos"> 48</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span>
+</span><span id="Game-49"><a href="#Game-49"><span class="linenos"> 49</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game-50"><a href="#Game-50"><span class="linenos"> 50</span></a>
+</span><span id="Game-51"><a href="#Game-51"><span class="linenos"> 51</span></a>    <span class="k">def</span> <span class="nf">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+</span><span id="Game-52"><a href="#Game-52"><span class="linenos"> 52</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice for the computer player.&quot;&quot;&quot;</span>
+</span><span id="Game-53"><a href="#Game-53"><span class="linenos"> 53</span></a>        <span class="n">intelligence</span> <span class="o">=</span> <span class="n">Intelligence</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+</span><span id="Game-54"><a href="#Game-54"><span class="linenos"> 54</span></a>
+</span><span id="Game-55"><a href="#Game-55"><span class="linenos"> 55</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game-56"><a href="#Game-56"><span class="linenos"> 56</span></a>        <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+</span><span id="Game-57"><a href="#Game-57"><span class="linenos"> 57</span></a>        <span class="c1"># establish a while loop for the computer&#39;s turn</span>
+</span><span id="Game-58"><a href="#Game-58"><span class="linenos"> 58</span></a>        <span class="k">while</span> <span class="n">again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+</span><span id="Game-59"><a href="#Game-59"><span class="linenos"> 59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
+</span><span id="Game-60"><a href="#Game-60"><span class="linenos"> 60</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value1</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+</span><span id="Game-61"><a href="#Game-61"><span class="linenos"> 61</span></a>
+</span><span id="Game-62"><a href="#Game-62"><span class="linenos"> 62</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Game-63"><a href="#Game-63"><span class="linenos"> 63</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game-64"><a href="#Game-64"><span class="linenos"> 64</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game-65"><a href="#Game-65"><span class="linenos"> 65</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+</span><span id="Game-66"><a href="#Game-66"><span class="linenos"> 66</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+</span><span id="Game-67"><a href="#Game-67"><span class="linenos"> 67</span></a>                <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
 </span><span id="Game-68"><a href="#Game-68"><span class="linenos"> 68</span></a>
-</span><span id="Game-69"><a href="#Game-69"><span class="linenos"> 69</span></a>    <span class="k">def</span> <span class="nf">is_computer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-70"><a href="#Game-70"><span class="linenos"> 70</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;computer&quot;</span><span class="p">:</span>
-</span><span id="Game-71"><a href="#Game-71"><span class="linenos"> 71</span></a>            <span class="k">return</span> <span class="kc">True</span>
-</span><span id="Game-72"><a href="#Game-72"><span class="linenos"> 72</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Game-73"><a href="#Game-73"><span class="linenos"> 73</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="Game-74"><a href="#Game-74"><span class="linenos"> 74</span></a>
-</span><span id="Game-75"><a href="#Game-75"><span class="linenos"> 75</span></a>    <span class="k">def</span> <span class="nf">pass_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-76"><a href="#Game-76"><span class="linenos"> 76</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">)</span>
-</span><span id="Game-77"><a href="#Game-77"><span class="linenos"> 77</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game-78"><a href="#Game-78"><span class="linenos"> 78</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">:</span>
-</span><span id="Game-79"><a href="#Game-79"><span class="linenos"> 79</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="Game-80"><a href="#Game-80"><span class="linenos"> 80</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="Game-81"><a href="#Game-81"><span class="linenos"> 81</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</span><span id="Game-82"><a href="#Game-82"><span class="linenos"> 82</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Congrats </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, you are the winner! </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game-83"><a href="#Game-83"><span class="linenos"> 83</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Game-84"><a href="#Game-84"><span class="linenos"> 84</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
-</span><span id="Game-85"><a href="#Game-85"><span class="linenos"> 85</span></a>
-</span><span id="Game-86"><a href="#Game-86"><span class="linenos"> 86</span></a>    <span class="k">def</span> <span class="nf">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_player_score</span><span class="p">):</span>
-</span><span id="Game-87"><a href="#Game-87"><span class="linenos"> 87</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;Determines whether the game is over.&#39;&#39;&#39;</span>
-</span><span id="Game-88"><a href="#Game-88"><span class="linenos"> 88</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;Returns True if player has 100 or more, otherwise it returns False.&#39;&#39;&#39;</span>
-</span><span id="Game-89"><a href="#Game-89"><span class="linenos"> 89</span></a>        <span class="k">if</span> <span class="p">(</span><span class="n">current_player_score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">):</span>
-</span><span id="Game-90"><a href="#Game-90"><span class="linenos"> 90</span></a>            <span class="k">return</span> <span class="kc">True</span>
-</span><span id="Game-91"><a href="#Game-91"><span class="linenos"> 91</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Game-92"><a href="#Game-92"><span class="linenos"> 92</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="Game-93"><a href="#Game-93"><span class="linenos"> 93</span></a>
-</span><span id="Game-94"><a href="#Game-94"><span class="linenos"> 94</span></a>    <span class="k">def</span> <span class="nf">reset_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-95"><a href="#Game-95"><span class="linenos"> 95</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p1</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game-96"><a href="#Game-96"><span class="linenos"> 96</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p2</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game-97"><a href="#Game-97"><span class="linenos"> 97</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span>
-</span><span id="Game-98"><a href="#Game-98"><span class="linenos"> 98</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span>
-</span><span id="Game-99"><a href="#Game-99"><span class="linenos"> 99</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="Game-100"><a href="#Game-100"><span class="linenos">100</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game-101"><a href="#Game-101"><span class="linenos">101</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game-69"><a href="#Game-69"><span class="linenos"> 69</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="Game-70"><a href="#Game-70"><span class="linenos"> 70</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span>
+</span><span id="Game-71"><a href="#Game-71"><span class="linenos"> 71</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game-72"><a href="#Game-72"><span class="linenos"> 72</span></a>                <span class="n">roll_or_hold</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="Game-73"><a href="#Game-73"><span class="linenos"> 73</span></a>                <span class="k">if</span> <span class="n">roll_or_hold</span> <span class="o">==</span> <span class="s1">&#39;roll&#39;</span><span class="p">:</span>
+</span><span id="Game-74"><a href="#Game-74"><span class="linenos"> 74</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+</span><span id="Game-75"><a href="#Game-75"><span class="linenos"> 75</span></a>                <span class="k">else</span><span class="p">:</span>
+</span><span id="Game-76"><a href="#Game-76"><span class="linenos"> 76</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
+</span><span id="Game-77"><a href="#Game-77"><span class="linenos"> 77</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
+</span><span id="Game-78"><a href="#Game-78"><span class="linenos"> 78</span></a>
+</span><span id="Game-79"><a href="#Game-79"><span class="linenos"> 79</span></a>    <span class="k">def</span> <span class="nf">is_computer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-80"><a href="#Game-80"><span class="linenos"> 80</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the current player is a computer player.&quot;&quot;&quot;</span>
+</span><span id="Game-81"><a href="#Game-81"><span class="linenos"> 81</span></a>        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
+</span><span id="Game-82"><a href="#Game-82"><span class="linenos"> 82</span></a>
+</span><span id="Game-83"><a href="#Game-83"><span class="linenos"> 83</span></a>    <span class="k">def</span> <span class="nf">pass_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-84"><a href="#Game-84"><span class="linenos"> 84</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass the turn to the other player.&quot;&quot;&quot;</span>
+</span><span id="Game-85"><a href="#Game-85"><span class="linenos"> 85</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">)</span>
+</span><span id="Game-86"><a href="#Game-86"><span class="linenos"> 86</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game-87"><a href="#Game-87"><span class="linenos"> 87</span></a>        <span class="c1"># Check if the current player&#39;s total score reaches the winning score</span>
+</span><span id="Game-88"><a href="#Game-88"><span class="linenos"> 88</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">:</span>
+</span><span id="Game-89"><a href="#Game-89"><span class="linenos"> 89</span></a>            <span class="c1"># Set the winner</span>
+</span><span id="Game-90"><a href="#Game-90"><span class="linenos"> 90</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+</span><span id="Game-91"><a href="#Game-91"><span class="linenos"> 91</span></a>
+</span><span id="Game-92"><a href="#Game-92"><span class="linenos"> 92</span></a>            <span class="c1"># Update the high score list</span>
+</span><span id="Game-93"><a href="#Game-93"><span class="linenos"> 93</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="Game-94"><a href="#Game-94"><span class="linenos"> 94</span></a>
+</span><span id="Game-95"><a href="#Game-95"><span class="linenos"> 95</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="Game-96"><a href="#Game-96"><span class="linenos"> 96</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Congrats </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, you are the winner! </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game-97"><a href="#Game-97"><span class="linenos"> 97</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Game-98"><a href="#Game-98"><span class="linenos"> 98</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+</span><span id="Game-99"><a href="#Game-99"><span class="linenos"> 99</span></a>
+</span><span id="Game-100"><a href="#Game-100"><span class="linenos">100</span></a>    <span class="k">def</span> <span class="nf">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_player_score</span><span class="p">):</span>
+</span><span id="Game-101"><a href="#Game-101"><span class="linenos">101</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine whether the game is over.</span>
 </span><span id="Game-102"><a href="#Game-102"><span class="linenos">102</span></a>
-</span><span id="Game-103"><a href="#Game-103"><span class="linenos">103</span></a>    <span class="k">def</span> <span class="nf">cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-104"><a href="#Game-104"><span class="linenos">104</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span>
-</span><span id="Game-105"><a href="#Game-105"><span class="linenos">105</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="Game-106"><a href="#Game-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="Game-107"><a href="#Game-107"><span class="linenos">107</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</span><span id="Game-108"><a href="#Game-108"><span class="linenos">108</span></a>
-</span><span id="Game-109"><a href="#Game-109"><span class="linenos">109</span></a>    <span class="k">def</span> <span class="nf">set_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-</span><span id="Game-110"><a href="#Game-110"><span class="linenos">110</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="Game-111"><a href="#Game-111"><span class="linenos">111</span></a>
-</span><span id="Game-112"><a href="#Game-112"><span class="linenos">112</span></a>    <span class="k">def</span> <span class="nf">set_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-</span><span id="Game-113"><a href="#Game-113"><span class="linenos">113</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="Game-114"><a href="#Game-114"><span class="linenos">114</span></a>
-</span><span id="Game-115"><a href="#Game-115"><span class="linenos">115</span></a>    <span class="k">def</span> <span class="nf">get_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-116"><a href="#Game-116"><span class="linenos">116</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="Game-117"><a href="#Game-117"><span class="linenos">117</span></a>
-</span><span id="Game-118"><a href="#Game-118"><span class="linenos">118</span></a>    <span class="k">def</span> <span class="nf">get_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-119"><a href="#Game-119"><span class="linenos">119</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span>
+</span><span id="Game-103"><a href="#Game-103"><span class="linenos">103</span></a><span class="sd">        Return True if player has 50 or more, otherwise return False.</span>
+</span><span id="Game-104"><a href="#Game-104"><span class="linenos">104</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Game-105"><a href="#Game-105"><span class="linenos">105</span></a>        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">current_player_score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">)</span>
+</span><span id="Game-106"><a href="#Game-106"><span class="linenos">106</span></a>
+</span><span id="Game-107"><a href="#Game-107"><span class="linenos">107</span></a>    <span class="k">def</span> <span class="nf">reset_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-108"><a href="#Game-108"><span class="linenos">108</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the game by resetting all the attributes to their default values.&quot;&quot;&quot;</span>
+</span><span id="Game-109"><a href="#Game-109"><span class="linenos">109</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game-110"><a href="#Game-110"><span class="linenos">110</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game-111"><a href="#Game-111"><span class="linenos">111</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span>
+</span><span id="Game-112"><a href="#Game-112"><span class="linenos">112</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span>
+</span><span id="Game-113"><a href="#Game-113"><span class="linenos">113</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game-114"><a href="#Game-114"><span class="linenos">114</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game-115"><a href="#Game-115"><span class="linenos">115</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game-116"><a href="#Game-116"><span class="linenos">116</span></a>
+</span><span id="Game-117"><a href="#Game-117"><span class="linenos">117</span></a>    <span class="k">def</span> <span class="nf">cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-118"><a href="#Game-118"><span class="linenos">118</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the score of the current player to WINNING_SCORE (50).&quot;&quot;&quot;</span>
+</span><span id="Game-119"><a href="#Game-119"><span class="linenos">119</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span>
 </span><span id="Game-120"><a href="#Game-120"><span class="linenos">120</span></a>
-</span><span id="Game-121"><a href="#Game-121"><span class="linenos">121</span></a>    <span class="k">def</span> <span class="nf">set_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
-</span><span id="Game-122"><a href="#Game-122"><span class="linenos">122</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
+</span><span id="Game-121"><a href="#Game-121"><span class="linenos">121</span></a>        <span class="c1"># declare the current player as the winner</span>
+</span><span id="Game-122"><a href="#Game-122"><span class="linenos">122</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
 </span><span id="Game-123"><a href="#Game-123"><span class="linenos">123</span></a>
-</span><span id="Game-124"><a href="#Game-124"><span class="linenos">124</span></a>    <span class="k">def</span> <span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game-125"><a href="#Game-125"><span class="linenos">125</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
+</span><span id="Game-124"><a href="#Game-124"><span class="linenos">124</span></a>        <span class="c1"># add the current player&#39;s score and name to the high score table</span>
+</span><span id="Game-125"><a href="#Game-125"><span class="linenos">125</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="Game-126"><a href="#Game-126"><span class="linenos">126</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="Game-127"><a href="#Game-127"><span class="linenos">127</span></a>
+</span><span id="Game-128"><a href="#Game-128"><span class="linenos">128</span></a>    <span class="k">def</span> <span class="nf">set_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+</span><span id="Game-129"><a href="#Game-129"><span class="linenos">129</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the current player to the player with the given name.&quot;&quot;&quot;</span>
+</span><span id="Game-130"><a href="#Game-130"><span class="linenos">130</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="Game-131"><a href="#Game-131"><span class="linenos">131</span></a>
+</span><span id="Game-132"><a href="#Game-132"><span class="linenos">132</span></a>    <span class="k">def</span> <span class="nf">set_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+</span><span id="Game-133"><a href="#Game-133"><span class="linenos">133</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the other player to the player with the given name.&quot;&quot;&quot;</span>
+</span><span id="Game-134"><a href="#Game-134"><span class="linenos">134</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="Game-135"><a href="#Game-135"><span class="linenos">135</span></a>
+</span><span id="Game-136"><a href="#Game-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="nf">get_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-137"><a href="#Game-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the current player.&quot;&quot;&quot;</span>
+</span><span id="Game-138"><a href="#Game-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+</span><span id="Game-139"><a href="#Game-139"><span class="linenos">139</span></a>
+</span><span id="Game-140"><a href="#Game-140"><span class="linenos">140</span></a>    <span class="k">def</span> <span class="nf">get_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-141"><a href="#Game-141"><span class="linenos">141</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the other player.&quot;&quot;&quot;</span>
+</span><span id="Game-142"><a href="#Game-142"><span class="linenos">142</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span>
+</span><span id="Game-143"><a href="#Game-143"><span class="linenos">143</span></a>
+</span><span id="Game-144"><a href="#Game-144"><span class="linenos">144</span></a>    <span class="k">def</span> <span class="nf">set_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+</span><span id="Game-145"><a href="#Game-145"><span class="linenos">145</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the game level to the given level.&quot;&quot;&quot;</span>
+</span><span id="Game-146"><a href="#Game-146"><span class="linenos">146</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
+</span><span id="Game-147"><a href="#Game-147"><span class="linenos">147</span></a>
+</span><span id="Game-148"><a href="#Game-148"><span class="linenos">148</span></a>    <span class="k">def</span> <span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game-149"><a href="#Game-149"><span class="linenos">149</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the current game level.&quot;&quot;&quot;</span>
+</span><span id="Game-150"><a href="#Game-150"><span class="linenos">150</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Class Game.</p>
+</div>
+
 
                             <div id="Game.__init__" class="classattr">
                                         <input id="Game.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -376,20 +428,26 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.__init__-12"><a href="#Game.__init__-12"><span class="linenos">12</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">):</span>
-</span><span id="Game.__init__-13"><a href="#Game.__init__-13"><span class="linenos">13</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player1_name</span><span class="p">)</span>
-</span><span id="Game.__init__-14"><a href="#Game.__init__-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player2_name</span><span class="p">)</span>
-</span><span id="Game.__init__-15"><a href="#Game.__init__-15"><span class="linenos">15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span>
-</span><span id="Game.__init__-16"><a href="#Game.__init__-16"><span class="linenos">16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span>
-</span><span id="Game.__init__-17"><a href="#Game.__init__-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="Game.__init__-18"><a href="#Game.__init__-18"><span class="linenos">18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game.__init__-19"><a href="#Game.__init__-19"><span class="linenos">19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="Game.__init__-20"><a href="#Game.__init__-20"><span class="linenos">20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span id="Game.__init__-21"><a href="#Game.__init__-21"><span class="linenos">21</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.__init__-15"><a href="#Game.__init__-15"><span class="linenos">15</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player1_name</span><span class="p">,</span> <span class="n">player2_name</span><span class="p">):</span>
+</span><span id="Game.__init__-16"><a href="#Game.__init__-16"><span class="linenos">16</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the game object with following attributes.&quot;&quot;&quot;</span>
+</span><span id="Game.__init__-17"><a href="#Game.__init__-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player1_name</span><span class="p">)</span>
+</span><span id="Game.__init__-18"><a href="#Game.__init__-18"><span class="linenos">18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="n">player2_name</span><span class="p">)</span>
+</span><span id="Game.__init__-19"><a href="#Game.__init__-19"><span class="linenos">19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span>
+</span><span id="Game.__init__-20"><a href="#Game.__init__-20"><span class="linenos">20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span>
+</span><span id="Game.__init__-21"><a href="#Game.__init__-21"><span class="linenos">21</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game.__init__-22"><a href="#Game.__init__-22"><span class="linenos">22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game.__init__-23"><a href="#Game.__init__-23"><span class="linenos">23</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game.__init__-24"><a href="#Game.__init__-24"><span class="linenos">24</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="Game.__init__-25"><a href="#Game.__init__-25"><span class="linenos">25</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span> <span class="o">=</span> <span class="n">HighScore</span><span class="p">()</span>
+</span><span id="Game.__init__-26"><a href="#Game.__init__-26"><span class="linenos">26</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game.__init__-27"><a href="#Game.__init__-27"><span class="linenos">27</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game.__init__-28"><a href="#Game.__init__-28"><span class="linenos">28</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="kc">None</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Initialize the game object with following attributes.</p>
+</div>
+
 
                             </div>
                             <div id="Game.switch_players" class="classattr">
@@ -403,12 +461,15 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.switch_players"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.switch_players-23"><a href="#Game.switch_players-23"><span class="linenos">23</span></a>    <span class="k">def</span> <span class="nf">switch_players</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.switch_players-24"><a href="#Game.switch_players-24"><span class="linenos">24</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.switch_players-30"><a href="#Game.switch_players-30"><span class="linenos">30</span></a>    <span class="k">def</span> <span class="nf">switch_players</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.switch_players-31"><a href="#Game.switch_players-31"><span class="linenos">31</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Switche the current player and the other player.&quot;&quot;&quot;</span>
+</span><span id="Game.switch_players-32"><a href="#Game.switch_players-32"><span class="linenos">32</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Switche the current player and the other player.</p>
+</div>
+
 
                             </div>
                             <div id="Game.roll_dice" class="classattr">
@@ -422,25 +483,28 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.roll_dice"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.roll_dice-26"><a href="#Game.roll_dice-26"><span class="linenos">26</span></a>    <span class="k">def</span> <span class="nf">roll_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.roll_dice-27"><a href="#Game.roll_dice-27"><span class="linenos">27</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_computer</span><span class="p">():</span>
-</span><span id="Game.roll_dice-28"><a href="#Game.roll_dice-28"><span class="linenos">28</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
-</span><span id="Game.roll_dice-29"><a href="#Game.roll_dice-29"><span class="linenos">29</span></a>
-</span><span id="Game.roll_dice-30"><a href="#Game.roll_dice-30"><span class="linenos">30</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Game.roll_dice-31"><a href="#Game.roll_dice-31"><span class="linenos">31</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
-</span><span id="Game.roll_dice-32"><a href="#Game.roll_dice-32"><span class="linenos">32</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
-</span><span id="Game.roll_dice-33"><a href="#Game.roll_dice-33"><span class="linenos">33</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Game.roll_dice-34"><a href="#Game.roll_dice-34"><span class="linenos">34</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game.roll_dice-35"><a href="#Game.roll_dice-35"><span class="linenos">35</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game.roll_dice-36"><a href="#Game.roll_dice-36"><span class="linenos">36</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
-</span><span id="Game.roll_dice-37"><a href="#Game.roll_dice-37"><span class="linenos">37</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
-</span><span id="Game.roll_dice-38"><a href="#Game.roll_dice-38"><span class="linenos">38</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="Game.roll_dice-39"><a href="#Game.roll_dice-39"><span class="linenos">39</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span>
-</span><span id="Game.roll_dice-40"><a href="#Game.roll_dice-40"><span class="linenos">40</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.roll_dice-34"><a href="#Game.roll_dice-34"><span class="linenos">34</span></a>    <span class="k">def</span> <span class="nf">roll_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.roll_dice-35"><a href="#Game.roll_dice-35"><span class="linenos">35</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice and updates the turn score.&quot;&quot;&quot;</span>
+</span><span id="Game.roll_dice-36"><a href="#Game.roll_dice-36"><span class="linenos">36</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_computer</span><span class="p">():</span>
+</span><span id="Game.roll_dice-37"><a href="#Game.roll_dice-37"><span class="linenos">37</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
+</span><span id="Game.roll_dice-38"><a href="#Game.roll_dice-38"><span class="linenos">38</span></a>
+</span><span id="Game.roll_dice-39"><a href="#Game.roll_dice-39"><span class="linenos">39</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Game.roll_dice-40"><a href="#Game.roll_dice-40"><span class="linenos">40</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
+</span><span id="Game.roll_dice-41"><a href="#Game.roll_dice-41"><span class="linenos">41</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+</span><span id="Game.roll_dice-42"><a href="#Game.roll_dice-42"><span class="linenos">42</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Game.roll_dice-43"><a href="#Game.roll_dice-43"><span class="linenos">43</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game.roll_dice-44"><a href="#Game.roll_dice-44"><span class="linenos">44</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game.roll_dice-45"><a href="#Game.roll_dice-45"><span class="linenos">45</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+</span><span id="Game.roll_dice-46"><a href="#Game.roll_dice-46"><span class="linenos">46</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+</span><span id="Game.roll_dice-47"><a href="#Game.roll_dice-47"><span class="linenos">47</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="Game.roll_dice-48"><a href="#Game.roll_dice-48"><span class="linenos">48</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span>
+</span><span id="Game.roll_dice-49"><a href="#Game.roll_dice-49"><span class="linenos">49</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Roll the dice and updates the turn score.</p>
+</div>
+
 
                             </div>
                             <div id="Game.computer_roll" class="classattr">
@@ -454,36 +518,39 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.computer_roll"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.computer_roll-42"><a href="#Game.computer_roll-42"><span class="linenos">42</span></a>    <span class="k">def</span> <span class="nf">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
-</span><span id="Game.computer_roll-43"><a href="#Game.computer_roll-43"><span class="linenos">43</span></a>        <span class="n">intelligence</span> <span class="o">=</span> <span class="n">Intelligence</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-</span><span id="Game.computer_roll-44"><a href="#Game.computer_roll-44"><span class="linenos">44</span></a>
-</span><span id="Game.computer_roll-45"><a href="#Game.computer_roll-45"><span class="linenos">45</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game.computer_roll-46"><a href="#Game.computer_roll-46"><span class="linenos">46</span></a>        <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
-</span><span id="Game.computer_roll-47"><a href="#Game.computer_roll-47"><span class="linenos">47</span></a>        <span class="c1"># establish a while loop for the computer&#39;s turn</span>
-</span><span id="Game.computer_roll-48"><a href="#Game.computer_roll-48"><span class="linenos">48</span></a>        <span class="k">while</span> <span class="n">again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
-</span><span id="Game.computer_roll-49"><a href="#Game.computer_roll-49"><span class="linenos">49</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
-</span><span id="Game.computer_roll-50"><a href="#Game.computer_roll-50"><span class="linenos">50</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value1</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
-</span><span id="Game.computer_roll-51"><a href="#Game.computer_roll-51"><span class="linenos">51</span></a>
-</span><span id="Game.computer_roll-52"><a href="#Game.computer_roll-52"><span class="linenos">52</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Game.computer_roll-53"><a href="#Game.computer_roll-53"><span class="linenos">53</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game.computer_roll-54"><a href="#Game.computer_roll-54"><span class="linenos">54</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game.computer_roll-55"><a href="#Game.computer_roll-55"><span class="linenos">55</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
-</span><span id="Game.computer_roll-56"><a href="#Game.computer_roll-56"><span class="linenos">56</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
-</span><span id="Game.computer_roll-57"><a href="#Game.computer_roll-57"><span class="linenos">57</span></a>                <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
-</span><span id="Game.computer_roll-58"><a href="#Game.computer_roll-58"><span class="linenos">58</span></a>
-</span><span id="Game.computer_roll-59"><a href="#Game.computer_roll-59"><span class="linenos">59</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="Game.computer_roll-60"><a href="#Game.computer_roll-60"><span class="linenos">60</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span>
-</span><span id="Game.computer_roll-61"><a href="#Game.computer_roll-61"><span class="linenos">61</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game.computer_roll-62"><a href="#Game.computer_roll-62"><span class="linenos">62</span></a>                <span class="n">roll_or_hold</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="Game.computer_roll-63"><a href="#Game.computer_roll-63"><span class="linenos">63</span></a>                <span class="k">if</span> <span class="n">roll_or_hold</span> <span class="o">==</span> <span class="s1">&#39;roll&#39;</span><span class="p">:</span>
-</span><span id="Game.computer_roll-64"><a href="#Game.computer_roll-64"><span class="linenos">64</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
-</span><span id="Game.computer_roll-65"><a href="#Game.computer_roll-65"><span class="linenos">65</span></a>                <span class="k">else</span><span class="p">:</span>
-</span><span id="Game.computer_roll-66"><a href="#Game.computer_roll-66"><span class="linenos">66</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
-</span><span id="Game.computer_roll-67"><a href="#Game.computer_roll-67"><span class="linenos">67</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.computer_roll-51"><a href="#Game.computer_roll-51"><span class="linenos">51</span></a>    <span class="k">def</span> <span class="nf">computer_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+</span><span id="Game.computer_roll-52"><a href="#Game.computer_roll-52"><span class="linenos">52</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Roll the dice for the computer player.&quot;&quot;&quot;</span>
+</span><span id="Game.computer_roll-53"><a href="#Game.computer_roll-53"><span class="linenos">53</span></a>        <span class="n">intelligence</span> <span class="o">=</span> <span class="n">Intelligence</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+</span><span id="Game.computer_roll-54"><a href="#Game.computer_roll-54"><span class="linenos">54</span></a>
+</span><span id="Game.computer_roll-55"><a href="#Game.computer_roll-55"><span class="linenos">55</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game.computer_roll-56"><a href="#Game.computer_roll-56"><span class="linenos">56</span></a>        <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+</span><span id="Game.computer_roll-57"><a href="#Game.computer_roll-57"><span class="linenos">57</span></a>        <span class="c1"># establish a while loop for the computer&#39;s turn</span>
+</span><span id="Game.computer_roll-58"><a href="#Game.computer_roll-58"><span class="linenos">58</span></a>        <span class="k">while</span> <span class="n">again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+</span><span id="Game.computer_roll-59"><a href="#Game.computer_roll-59"><span class="linenos">59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">value1</span> <span class="o">=</span> <span class="n">Dice</span><span class="p">()</span>
+</span><span id="Game.computer_roll-60"><a href="#Game.computer_roll-60"><span class="linenos">60</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value1</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+</span><span id="Game.computer_roll-61"><a href="#Game.computer_roll-61"><span class="linenos">61</span></a>
+</span><span id="Game.computer_roll-62"><a href="#Game.computer_roll-62"><span class="linenos">62</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Game.computer_roll-63"><a href="#Game.computer_roll-63"><span class="linenos">63</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game.computer_roll-64"><a href="#Game.computer_roll-64"><span class="linenos">64</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game.computer_roll-65"><a href="#Game.computer_roll-65"><span class="linenos">65</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+</span><span id="Game.computer_roll-66"><a href="#Game.computer_roll-66"><span class="linenos">66</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">roll_dice</span><span class="p">()</span>
+</span><span id="Game.computer_roll-67"><a href="#Game.computer_roll-67"><span class="linenos">67</span></a>                <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
+</span><span id="Game.computer_roll-68"><a href="#Game.computer_roll-68"><span class="linenos">68</span></a>
+</span><span id="Game.computer_roll-69"><a href="#Game.computer_roll-69"><span class="linenos">69</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="Game.computer_roll-70"><a href="#Game.computer_roll-70"><span class="linenos">70</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dice_value1</span>
+</span><span id="Game.computer_roll-71"><a href="#Game.computer_roll-71"><span class="linenos">71</span></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="si">}</span><span class="s2">, your turn score is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game.computer_roll-72"><a href="#Game.computer_roll-72"><span class="linenos">72</span></a>                <span class="n">roll_or_hold</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="Game.computer_roll-73"><a href="#Game.computer_roll-73"><span class="linenos">73</span></a>                <span class="k">if</span> <span class="n">roll_or_hold</span> <span class="o">==</span> <span class="s1">&#39;roll&#39;</span><span class="p">:</span>
+</span><span id="Game.computer_roll-74"><a href="#Game.computer_roll-74"><span class="linenos">74</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+</span><span id="Game.computer_roll-75"><a href="#Game.computer_roll-75"><span class="linenos">75</span></a>                <span class="k">else</span><span class="p">:</span>
+</span><span id="Game.computer_roll-76"><a href="#Game.computer_roll-76"><span class="linenos">76</span></a>                    <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
+</span><span id="Game.computer_roll-77"><a href="#Game.computer_roll-77"><span class="linenos">77</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">pass_dice</span><span class="p">()</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Roll the dice for the computer player.</p>
+</div>
+
 
                             </div>
                             <div id="Game.is_computer" class="classattr">
@@ -497,15 +564,15 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.is_computer"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.is_computer-69"><a href="#Game.is_computer-69"><span class="linenos">69</span></a>    <span class="k">def</span> <span class="nf">is_computer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.is_computer-70"><a href="#Game.is_computer-70"><span class="linenos">70</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;computer&quot;</span><span class="p">:</span>
-</span><span id="Game.is_computer-71"><a href="#Game.is_computer-71"><span class="linenos">71</span></a>            <span class="k">return</span> <span class="kc">True</span>
-</span><span id="Game.is_computer-72"><a href="#Game.is_computer-72"><span class="linenos">72</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Game.is_computer-73"><a href="#Game.is_computer-73"><span class="linenos">73</span></a>            <span class="k">return</span> <span class="kc">False</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.is_computer-79"><a href="#Game.is_computer-79"><span class="linenos">79</span></a>    <span class="k">def</span> <span class="nf">is_computer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.is_computer-80"><a href="#Game.is_computer-80"><span class="linenos">80</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the current player is a computer player.&quot;&quot;&quot;</span>
+</span><span id="Game.is_computer-81"><a href="#Game.is_computer-81"><span class="linenos">81</span></a>        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;computer&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Check if the current player is a computer player.</p>
+</div>
+
 
                             </div>
                             <div id="Game.pass_dice" class="classattr">
@@ -519,20 +586,28 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.pass_dice"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.pass_dice-75"><a href="#Game.pass_dice-75"><span class="linenos">75</span></a>    <span class="k">def</span> <span class="nf">pass_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.pass_dice-76"><a href="#Game.pass_dice-76"><span class="linenos">76</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">)</span>
-</span><span id="Game.pass_dice-77"><a href="#Game.pass_dice-77"><span class="linenos">77</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game.pass_dice-78"><a href="#Game.pass_dice-78"><span class="linenos">78</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">:</span>
-</span><span id="Game.pass_dice-79"><a href="#Game.pass_dice-79"><span class="linenos">79</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="Game.pass_dice-80"><a href="#Game.pass_dice-80"><span class="linenos">80</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="Game.pass_dice-81"><a href="#Game.pass_dice-81"><span class="linenos">81</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</span><span id="Game.pass_dice-82"><a href="#Game.pass_dice-82"><span class="linenos">82</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Congrats </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, you are the winner! </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="Game.pass_dice-83"><a href="#Game.pass_dice-83"><span class="linenos">83</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Game.pass_dice-84"><a href="#Game.pass_dice-84"><span class="linenos">84</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.pass_dice-83"><a href="#Game.pass_dice-83"><span class="linenos">83</span></a>    <span class="k">def</span> <span class="nf">pass_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.pass_dice-84"><a href="#Game.pass_dice-84"><span class="linenos">84</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass the turn to the other player.&quot;&quot;&quot;</span>
+</span><span id="Game.pass_dice-85"><a href="#Game.pass_dice-85"><span class="linenos">85</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span><span class="p">)</span>
+</span><span id="Game.pass_dice-86"><a href="#Game.pass_dice-86"><span class="linenos">86</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game.pass_dice-87"><a href="#Game.pass_dice-87"><span class="linenos">87</span></a>        <span class="c1"># Check if the current player&#39;s total score reaches the winning score</span>
+</span><span id="Game.pass_dice-88"><a href="#Game.pass_dice-88"><span class="linenos">88</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">:</span>
+</span><span id="Game.pass_dice-89"><a href="#Game.pass_dice-89"><span class="linenos">89</span></a>            <span class="c1"># Set the winner</span>
+</span><span id="Game.pass_dice-90"><a href="#Game.pass_dice-90"><span class="linenos">90</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+</span><span id="Game.pass_dice-91"><a href="#Game.pass_dice-91"><span class="linenos">91</span></a>
+</span><span id="Game.pass_dice-92"><a href="#Game.pass_dice-92"><span class="linenos">92</span></a>            <span class="c1"># Update the high score list</span>
+</span><span id="Game.pass_dice-93"><a href="#Game.pass_dice-93"><span class="linenos">93</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="Game.pass_dice-94"><a href="#Game.pass_dice-94"><span class="linenos">94</span></a>
+</span><span id="Game.pass_dice-95"><a href="#Game.pass_dice-95"><span class="linenos">95</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="Game.pass_dice-96"><a href="#Game.pass_dice-96"><span class="linenos">96</span></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Congrats </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, you are the winner! </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="Game.pass_dice-97"><a href="#Game.pass_dice-97"><span class="linenos">97</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="Game.pass_dice-98"><a href="#Game.pass_dice-98"><span class="linenos">98</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">switch_players</span><span class="p">()</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Pass the turn to the other player.</p>
+</div>
+
 
                             </div>
                             <div id="Game.is_game_over" class="classattr">
@@ -546,17 +621,18 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.is_game_over"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.is_game_over-86"><a href="#Game.is_game_over-86"><span class="linenos">86</span></a>    <span class="k">def</span> <span class="nf">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_player_score</span><span class="p">):</span>
-</span><span id="Game.is_game_over-87"><a href="#Game.is_game_over-87"><span class="linenos">87</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;Determines whether the game is over.&#39;&#39;&#39;</span>
-</span><span id="Game.is_game_over-88"><a href="#Game.is_game_over-88"><span class="linenos">88</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;Returns True if player has 100 or more, otherwise it returns False.&#39;&#39;&#39;</span>
-</span><span id="Game.is_game_over-89"><a href="#Game.is_game_over-89"><span class="linenos">89</span></a>        <span class="k">if</span> <span class="p">(</span><span class="n">current_player_score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">):</span>
-</span><span id="Game.is_game_over-90"><a href="#Game.is_game_over-90"><span class="linenos">90</span></a>            <span class="k">return</span> <span class="kc">True</span>
-</span><span id="Game.is_game_over-91"><a href="#Game.is_game_over-91"><span class="linenos">91</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="Game.is_game_over-92"><a href="#Game.is_game_over-92"><span class="linenos">92</span></a>            <span class="k">return</span> <span class="kc">False</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.is_game_over-100"><a href="#Game.is_game_over-100"><span class="linenos">100</span></a>    <span class="k">def</span> <span class="nf">is_game_over</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_player_score</span><span class="p">):</span>
+</span><span id="Game.is_game_over-101"><a href="#Game.is_game_over-101"><span class="linenos">101</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine whether the game is over.</span>
+</span><span id="Game.is_game_over-102"><a href="#Game.is_game_over-102"><span class="linenos">102</span></a>
+</span><span id="Game.is_game_over-103"><a href="#Game.is_game_over-103"><span class="linenos">103</span></a><span class="sd">        Return True if player has 50 or more, otherwise return False.</span>
+</span><span id="Game.is_game_over-104"><a href="#Game.is_game_over-104"><span class="linenos">104</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Game.is_game_over-105"><a href="#Game.is_game_over-105"><span class="linenos">105</span></a>        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">current_player_score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Determines whether the game is over.</p>
+            <div class="docstring"><p>Determine whether the game is over.</p>
+
+<p>Return True if player has 50 or more, otherwise return False.</p>
 </div>
 
 
@@ -572,18 +648,21 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.reset_game"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.reset_game-94"><a href="#Game.reset_game-94"><span class="linenos"> 94</span></a>    <span class="k">def</span> <span class="nf">reset_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.reset_game-95"><a href="#Game.reset_game-95"><span class="linenos"> 95</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p1</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game.reset_game-96"><a href="#Game.reset_game-96"><span class="linenos"> 96</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">p2</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game.reset_game-97"><a href="#Game.reset_game-97"><span class="linenos"> 97</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span>
-</span><span id="Game.reset_game-98"><a href="#Game.reset_game-98"><span class="linenos"> 98</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span>
-</span><span id="Game.reset_game-99"><a href="#Game.reset_game-99"><span class="linenos"> 99</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="Game.reset_game-100"><a href="#Game.reset_game-100"><span class="linenos">100</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Game.reset_game-101"><a href="#Game.reset_game-101"><span class="linenos">101</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.reset_game-107"><a href="#Game.reset_game-107"><span class="linenos">107</span></a>    <span class="k">def</span> <span class="nf">reset_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.reset_game-108"><a href="#Game.reset_game-108"><span class="linenos">108</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the game by resetting all the attributes to their default values.&quot;&quot;&quot;</span>
+</span><span id="Game.reset_game-109"><a href="#Game.reset_game-109"><span class="linenos">109</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game.reset_game-110"><a href="#Game.reset_game-110"><span class="linenos">110</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game.reset_game-111"><a href="#Game.reset_game-111"><span class="linenos">111</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_1</span>
+</span><span id="Game.reset_game-112"><a href="#Game.reset_game-112"><span class="linenos">112</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_2</span>
+</span><span id="Game.reset_game-113"><a href="#Game.reset_game-113"><span class="linenos">113</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Game.reset_game-114"><a href="#Game.reset_game-114"><span class="linenos">114</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">turn_score</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Game.reset_game-115"><a href="#Game.reset_game-115"><span class="linenos">115</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dice_value</span> <span class="o">=</span> <span class="kc">None</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Reset the game by resetting all the attributes to their default values.</p>
+</div>
+
 
                             </div>
                             <div id="Game.cheat" class="classattr">
@@ -597,15 +676,22 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.cheat"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.cheat-103"><a href="#Game.cheat-103"><span class="linenos">103</span></a>    <span class="k">def</span> <span class="nf">cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.cheat-104"><a href="#Game.cheat-104"><span class="linenos">104</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span>
-</span><span id="Game.cheat-105"><a href="#Game.cheat-105"><span class="linenos">105</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
-</span><span id="Game.cheat-106"><a href="#Game.cheat-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
-</span><span id="Game.cheat-107"><a href="#Game.cheat-107"><span class="linenos">107</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.cheat-117"><a href="#Game.cheat-117"><span class="linenos">117</span></a>    <span class="k">def</span> <span class="nf">cheat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.cheat-118"><a href="#Game.cheat-118"><span class="linenos">118</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the score of the current player to WINNING_SCORE (50).&quot;&quot;&quot;</span>
+</span><span id="Game.cheat-119"><a href="#Game.cheat-119"><span class="linenos">119</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINNING_SCORE</span>
+</span><span id="Game.cheat-120"><a href="#Game.cheat-120"><span class="linenos">120</span></a>
+</span><span id="Game.cheat-121"><a href="#Game.cheat-121"><span class="linenos">121</span></a>        <span class="c1"># declare the current player as the winner</span>
+</span><span id="Game.cheat-122"><a href="#Game.cheat-122"><span class="linenos">122</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+</span><span id="Game.cheat-123"><a href="#Game.cheat-123"><span class="linenos">123</span></a>
+</span><span id="Game.cheat-124"><a href="#Game.cheat-124"><span class="linenos">124</span></a>        <span class="c1"># add the current player&#39;s score and name to the high score table</span>
+</span><span id="Game.cheat-125"><a href="#Game.cheat-125"><span class="linenos">125</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_player</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</span><span id="Game.cheat-126"><a href="#Game.cheat-126"><span class="linenos">126</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">highscore</span><span class="o">.</span><span class="n">add_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Set the score of the current player to WINNING_SCORE (50).</p>
+</div>
+
 
                             </div>
                             <div id="Game.set_current_player" class="classattr">
@@ -619,12 +705,15 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.set_current_player"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.set_current_player-109"><a href="#Game.set_current_player-109"><span class="linenos">109</span></a>    <span class="k">def</span> <span class="nf">set_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-</span><span id="Game.set_current_player-110"><a href="#Game.set_current_player-110"><span class="linenos">110</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="n">name</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.set_current_player-128"><a href="#Game.set_current_player-128"><span class="linenos">128</span></a>    <span class="k">def</span> <span class="nf">set_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+</span><span id="Game.set_current_player-129"><a href="#Game.set_current_player-129"><span class="linenos">129</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the current player to the player with the given name.&quot;&quot;&quot;</span>
+</span><span id="Game.set_current_player-130"><a href="#Game.set_current_player-130"><span class="linenos">130</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span> <span class="o">=</span> <span class="n">name</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Set the current player to the player with the given name.</p>
+</div>
+
 
                             </div>
                             <div id="Game.set_other_player" class="classattr">
@@ -638,12 +727,15 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.set_other_player"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.set_other_player-112"><a href="#Game.set_other_player-112"><span class="linenos">112</span></a>    <span class="k">def</span> <span class="nf">set_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-</span><span id="Game.set_other_player-113"><a href="#Game.set_other_player-113"><span class="linenos">113</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="n">name</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.set_other_player-132"><a href="#Game.set_other_player-132"><span class="linenos">132</span></a>    <span class="k">def</span> <span class="nf">set_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+</span><span id="Game.set_other_player-133"><a href="#Game.set_other_player-133"><span class="linenos">133</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the other player to the player with the given name.&quot;&quot;&quot;</span>
+</span><span id="Game.set_other_player-134"><a href="#Game.set_other_player-134"><span class="linenos">134</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span> <span class="o">=</span> <span class="n">name</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Set the other player to the player with the given name.</p>
+</div>
+
 
                             </div>
                             <div id="Game.get_current_player" class="classattr">
@@ -657,12 +749,15 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.get_current_player"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.get_current_player-115"><a href="#Game.get_current_player-115"><span class="linenos">115</span></a>    <span class="k">def</span> <span class="nf">get_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.get_current_player-116"><a href="#Game.get_current_player-116"><span class="linenos">116</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.get_current_player-136"><a href="#Game.get_current_player-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="nf">get_current_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.get_current_player-137"><a href="#Game.get_current_player-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the current player.&quot;&quot;&quot;</span>
+</span><span id="Game.get_current_player-138"><a href="#Game.get_current_player-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_player</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Return the current player.</p>
+</div>
+
 
                             </div>
                             <div id="Game.get_other_player" class="classattr">
@@ -676,12 +771,15 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.get_other_player"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.get_other_player-118"><a href="#Game.get_other_player-118"><span class="linenos">118</span></a>    <span class="k">def</span> <span class="nf">get_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.get_other_player-119"><a href="#Game.get_other_player-119"><span class="linenos">119</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.get_other_player-140"><a href="#Game.get_other_player-140"><span class="linenos">140</span></a>    <span class="k">def</span> <span class="nf">get_other_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.get_other_player-141"><a href="#Game.get_other_player-141"><span class="linenos">141</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the other player.&quot;&quot;&quot;</span>
+</span><span id="Game.get_other_player-142"><a href="#Game.get_other_player-142"><span class="linenos">142</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_player</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Return the other player.</p>
+</div>
+
 
                             </div>
                             <div id="Game.set_level" class="classattr">
@@ -695,12 +793,15 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.set_level"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.set_level-121"><a href="#Game.set_level-121"><span class="linenos">121</span></a>    <span class="k">def</span> <span class="nf">set_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
-</span><span id="Game.set_level-122"><a href="#Game.set_level-122"><span class="linenos">122</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.set_level-144"><a href="#Game.set_level-144"><span class="linenos">144</span></a>    <span class="k">def</span> <span class="nf">set_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+</span><span id="Game.set_level-145"><a href="#Game.set_level-145"><span class="linenos">145</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the game level to the given level.&quot;&quot;&quot;</span>
+</span><span id="Game.set_level-146"><a href="#Game.set_level-146"><span class="linenos">146</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Set the game level to the given level.</p>
+</div>
+
 
                             </div>
                             <div id="Game.get_level" class="classattr">
@@ -714,12 +815,15 @@ app<wbr>.game    </h1>
 
     </div>
     <a class="headerlink" href="#Game.get_level"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.get_level-124"><a href="#Game.get_level-124"><span class="linenos">124</span></a>    <span class="k">def</span> <span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Game.get_level-125"><a href="#Game.get_level-125"><span class="linenos">125</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Game.get_level-148"><a href="#Game.get_level-148"><span class="linenos">148</span></a>    <span class="k">def</span> <span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Game.get_level-149"><a href="#Game.get_level-149"><span class="linenos">149</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the current game level.&quot;&quot;&quot;</span>
+</span><span id="Game.get_level-150"><a href="#Game.get_level-150"><span class="linenos">150</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Return the current game level.</p>
+</div>
+
 
                             </div>
                 </section>
