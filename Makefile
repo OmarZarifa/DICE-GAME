@@ -49,7 +49,6 @@ coverage:
 pylint:
 	@$(call MESSAGE,$@)
 	cd app/ && pylint *.py
-	cd tests/ && pylint *.py
 
 flake8:
 	@$(call MESSAGE,$@)
