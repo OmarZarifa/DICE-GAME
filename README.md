@@ -35,9 +35,17 @@ On Windows:
 ```bash
 . .venv/Scripts/activate
 ```
+Or using the following command from the Makefile for Windows users:
+```bash
+make activate-w
+```
 On Linux/Mac:
 ```bash
 . .venv/bin/activate
+```
+Or using the following command from the Makefile for Linux/Mac users:
+```bash
+make activate-m
 ```
 
 #### 2.3  Installing Dependencies 

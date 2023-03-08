@@ -31,8 +31,12 @@ check-venv:
 		exit 1; \
 	fi
 
-activate:
+activate-w:
 	. .venv/Scripts/activate
+
+activate-m:
+	. .venv/bin/activate
+
 # ---------------------------------------------------------
 # Work with unit test and code coverage.
 #
@@ -96,6 +100,3 @@ pyreverse:
 	dot -Tpng classes.dot -o doc/pyreverse/classes.png
 	dot -Tpng packages.dot -o doc/pyreverse/packages.png
 	rm -f classes.dot packages.dot
-
-doc: pdoc pyreverse #pydoc sphinx
-
