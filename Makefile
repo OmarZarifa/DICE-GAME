@@ -26,17 +26,6 @@ install:
 installed:
 	$(PYTHON) -m pip list
 
-check-venv:
-	@if [ -z "$$(which python | grep -o .venv)" ]; then \
-		exit 1; \
-	fi
-
-activate-w:
-	. .venv/Scripts/activate
-
-activate-m:
-	. .venv/bin/activate
-
 # ---------------------------------------------------------
 # Work with unit test and code coverage.
 #
