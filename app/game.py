@@ -1,9 +1,9 @@
 """Represent the pig dice game."""
 
-from app.intelligence import Intelligence
-from app.dice import Dice
-from app.player import Player
-from app.highscore import HighScore
+from intelligence import Intelligence
+from dice import Dice
+from player import Player
+from highscore import HighScore
 
 
 class Game:
