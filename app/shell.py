@@ -27,7 +27,7 @@ class Shell(Cmd):
     """Class Shell."""
 
     intro = 'Type help or ? to list commands.\n'
-    prompt = '> '
+    prompt = '(game): '
 
     def __init__(self):
         """Initialize a new instance of the Shell class.
@@ -48,24 +48,15 @@ class Shell(Cmd):
         print("pass        - Pass rolling to the other player")
         print("restart     - Restart the current game")
         print("exit        - Exit the current game")
-        print("cheat       - Cheat and reach 100 points in the game")
-        print("score   - Display the high scores")
+        print("cheat       - Cheat and reach 50 points in the game")
+        print("score       - Display the high scores")
 
     def do_rules(self, _):
         """Display the rules of the game."""
-        print("""
-        Pig Dice is a game for two players, in which the players take turns rolling a single die.
-        The goal of the game is to reach 100 points before the other player does.
-
-        On each turn, the player rolls the die as many times as they want, accumulating points for each roll.
-        However, if the player rolls a 1, they lose all the points they have accumulated on that turn, and the turn ends.
-        If the player rolls a 6, they lose all the points they have accumulated in the game so far, and the turn ends.
-
-        The player can choose to end their turn at any time and add their accumulated points to their total score.
-        The turn then passes to the other player.
-
-        If a player reaches 50 points, the game ends and that player wins.
-        """)
+        print("Pig Dice is a two-player game."
+              "Roll a die to earn points each turn."
+              "Avoid rolling a 1 to keep your points."
+              "Reach 50 points to win.")
 
     def do_start(self, arg):
         """Start a new game with one or two players, depending on the user's input."""

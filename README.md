@@ -18,6 +18,12 @@ python --version
 ```
 3. The output will display the Python version installed on your machine.
 
+Important hint: The Makefile uses 'PYTHON=python' as default. If you have another naming of the Python executable then you can solve that using an environment variable. This is common on Mac and Linux. Set the environment variable to be your python executable
+```bash
+export PYTHON=python3
+make version
+```
+
 
 If you don't have Python installed, you can download it from the official website: https://www.python.org/downloads/
 
@@ -35,17 +41,10 @@ On Windows:
 ```bash
 . .venv/Scripts/activate
 ```
-Or using the following command from the Makefile for Windows users:
-```bash
-make activate-w
-```
+
 On Linux/Mac:
 ```bash
 . .venv/bin/activate
-```
-Or using the following command from the Makefile for Linux/Mac users:
-```bash
-make activate-m
 ```
 
 #### 2.3  Installing Dependencies 
